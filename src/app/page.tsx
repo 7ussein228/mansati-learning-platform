@@ -3,7 +3,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CourseCard from '@/components/CourseCard';
 import { getCurrentUser } from '@/lib/auth';
-import { readDB, readSingle } from '@/lib/db';
+import { readDB, getSettings } from '@/lib/db';
 import type { Course, Settings, User, Quiz, Enrollment } from '@/lib/types';
 import {
   BookOpen,
@@ -25,7 +25,7 @@ export const dynamic = 'force-dynamic';
 export default async function LandingPage() {
   const user = await getCurrentUser();
   const courses = await readDB<Course>('courses');
-  const settings = await readSingle<Settings>('settings');
+  const settings = await getSettings();
   const users = await readDB<User>('users');
   const quizzes = await readDB<Quiz>('quizzes');
   const enrollments = await readDB<Enrollment>('enrollments');

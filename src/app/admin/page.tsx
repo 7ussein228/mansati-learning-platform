@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { readDB, readSingle } from '@/lib/db';
-import type { User, Course, Quiz, Subscription, Settings } from '@/lib/types';
+import { readDB, getSettings } from '@/lib/db';
+import type { User, Course, Quiz, Subscription } from '@/lib/types';
 import {
   Users,
   BookOpen,
@@ -19,7 +19,7 @@ export default async function AdminDashboard() {
   const courses = await readDB<Course>('courses');
   const quizzes = await readDB<Quiz>('quizzes');
   const subscriptions = await readDB<Subscription>('subscriptions');
-  const settings = await readSingle<Settings>('settings');
+  const settings = await getSettings();
 
   const studentCount = users.filter((u) => u.role === 'student').length;
   const totalRevenue = subscriptions.reduce((sum, s) => sum + s.amount, 0);

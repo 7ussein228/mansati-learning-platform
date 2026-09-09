@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server';
-import { readSingle, writeSingle } from '@/lib/db';
+import { getSettings, saveSettings } from '@/lib/db';
 import { getCurrentUser } from '@/lib/auth';
-import type { Settings } from '@/lib/types';
 
 export async function GET() {
-  const settings = (await readSingle<Settings>('settings'));
+  const settings = await getSettings();
   return NextResponse.json({ settings });
 }
 
@@ -14,6 +13,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
   const body = await request.json();
-  await writeSingle('settings', body);
+  await saveSettings(body);
   return NextResponse.json({ success: true, settings: body });
 }

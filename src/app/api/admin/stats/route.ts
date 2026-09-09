@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { readDB, readSingle } from '@/lib/db';
+import { readDB, getSettings } from '@/lib/db';
 import { getCurrentUser } from '@/lib/auth';
-import type { User, Course, Quiz, Subscription, Settings } from '@/lib/types';
+import type { User, Course, Quiz, Subscription } from '@/lib/types';
 
 export async function GET() {
   const user = await getCurrentUser();
@@ -12,7 +12,7 @@ export async function GET() {
   const courses = await readDB<Course>('courses');
   const quizzes = await readDB<Quiz>('quizzes');
   const subscriptions = await readDB<Subscription>('subscriptions');
-  const settings = await readSingle<Settings>('settings');
+  const settings = await getSettings();
 
   const studentCount = users.filter((u) => u.role === 'student').length;
   const activeSubs = subscriptions.filter((s) => s.status === 'نشط').length;
