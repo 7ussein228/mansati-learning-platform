@@ -97,12 +97,13 @@ export default function AdminQuizzesClient({ quizzes, courses }: Props) {
                         >
                           <FileQuestion className="w-4 h-4" />
                         </Link>
-                        <button
+                        <Link
+                          href={`/admin/quizzes/${q.id}/edit`}
                           className="p-2 text-slate-500 hover:text-yellow-600 hover:bg-yellow-50 rounded-lg transition"
                           title="تعديل"
                         >
                           <Edit3 className="w-4 h-4" />
-                        </button>
+                        </Link>
                         <button
                           onClick={() => handleDelete(q.id)}
                           disabled={deleting === q.id}
