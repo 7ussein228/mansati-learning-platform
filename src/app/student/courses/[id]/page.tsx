@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { readDB } from '@/lib/db';
 import type { Course, Enrollment } from '@/lib/types';
 import { getCurrentUser } from '@/lib/auth';
+import BuyButton from '@/components/BuyButton';
 import {
   Clock,
   Users,
@@ -220,15 +221,12 @@ export default async function CourseDetail({ params }: { params: Promise<{ id: s
                 <div className="text-sm text-slate-500">اشتراك لمرة واحدة</div>
               </div>
             )}
-            <button
-              className={`w-full py-3 rounded-xl font-bold transition ${
-                course.isFree
-                  ? 'bg-green-500 hover:bg-green-600 text-white'
-                  : 'bg-blue-600 hover:bg-blue-700 text-white'
-              }`}
-            >
-              {enrollment || course.isFree ? 'متابعة الكورس' : 'سجّل في الكورس'}
-            </button>
+            <BuyButton
+              courseId={course.id}
+              isFree={course.isFree}
+              isEnrolled={!!enrollment}
+              price={course.price}
+            />
           </div>
 
           <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">

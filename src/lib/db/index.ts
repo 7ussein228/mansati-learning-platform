@@ -49,6 +49,7 @@ const tableMap = {
   messages: schema.messages,
   subscriptions: schema.subscriptions,
   attempts: schema.attempts,
+  purchases: schema.purchases,
 } as const;
 
 type TableName = keyof typeof tableMap;

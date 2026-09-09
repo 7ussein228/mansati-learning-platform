@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@xpayeg/react": "^2.4.0",
+    "@xpayeg/sdk": "^2.4.0",
     "bcryptjs": "^3.0.3",
     "dotenv": "17.3.1",
     "drizzle-orm": "0.45.2",

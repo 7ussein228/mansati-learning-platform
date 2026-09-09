@@ -105,3 +105,15 @@ export const settings = pgTable("settings", {
   key: text("key").primaryKey(),
   value: jsonb("value").notNull(),
 });
+
+export const purchases = pgTable("purchases", {
+  id: text("id").primaryKey(),
+  studentId: text("student_id").notNull(),
+  courseId: text("course_id").notNull(),
+  amount: real("amount").notNull(),
+  currency: text("currency").notNull().default("EGP"),
+  checkoutSessionId: text("checkout_session_id"),
+  paymentIntentId: text("payment_intent_id"),
+  status: text("status").notNull().default("pending"),
+  createdAt: text("created_at").notNull(),
+});
