@@ -1,0 +1,24 @@
+[
+  {
+    "id": "admin1",
+    "name": "الأستاذ أحمد محمد",
+    "email": "admin@mansati.com",
+    "phone": "01000000000",
+    "password": "$2b$10$mZypspeUmZeOIdwK29GQbebMe.WxDmQ0PkSaUkkWw7uX/wsrmC76y",
+    "role": "admin",
+    "points": 0,
+    "createdAt": "2026-09-09T19:01:06.955Z",
+    "status": "active"
+  },
+  {
+    "id": "student1",
+    "name": "محمد علي",
+    "email": "student@mansati.com",
+    "phone": "01011111111",
+    "password": "$2b$10$1mdM4Kj5HB3hIX61iDNPte9VADHIxvv3Bf0sVHFgFIokm5/kYR8Ri",
+    "role": "student",
+    "points": 850,
+    "createdAt": "2026-08-10T19:01:07.039Z",
+    "status": "active"
+  }
+]

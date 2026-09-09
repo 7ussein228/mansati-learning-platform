@@ -1,0 +1,14 @@
+{
+  "platformName": "منصتي",
+  "description": "منصة تعليمية متكاملة للطالب المصري - مع الأستاذ أحمد محمد",
+  "email": "info@mansati.com",
+  "phone": "01012345678",
+  "facebook": "https://facebook.com/mansati",
+  "youtube": "https://youtube.com/@mansati",
+  "telegram": "https://t.me/mansati",
+  "monthlyPrice": 49,
+  "yearlyPrice": 449,
+  "emailNotifications": true,
+  "pushNotifications": true,
+  "newCourseAlerts": true
+}

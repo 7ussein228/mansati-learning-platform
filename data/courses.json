@@ -1,0 +1,240 @@
+[
+  {
+    "title": "أساسيات الفيزياء - المرحلة الثانوية",
+    "description": "كورس شامل لشرح أساسيات الفيزياء للصف الثالث الثانوي يغطي كل فصول المنهج بطريقة مبسطة مع أمثلة محلولة.",
+    "category": "فيزياء",
+    "price": 299,
+    "isFree": false,
+    "image": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&q=80",
+    "rating": 4.8,
+    "studentsCount": 1240,
+    "duration": 1800,
+    "lessons": [
+      {
+        "id": "l1",
+        "title": "مقدمة في علم الفيزياء",
+        "description": "نظرة عامة على علم الفيزياء وأهميته",
+        "duration": 25,
+        "isFree": true
+      },
+      {
+        "id": "l2",
+        "title": "الكميات الفيزيائية ووحدات القياس",
+        "description": "شرح الكميات الأساسية والمشتقة",
+        "duration": 40,
+        "isFree": false
+      },
+      {
+        "id": "l3",
+        "title": "المتجهات",
+        "description": "جمع وطرح المتجهات وتحليلها",
+        "duration": 45,
+        "isFree": false
+      },
+      {
+        "id": "l4",
+        "title": "الحركة في خط مستقيم",
+        "description": "السرعة والتسارع ومعادلات الحركة",
+        "duration": 50,
+        "isFree": false
+      },
+      {
+        "id": "l5",
+        "title": "قوانين نيوتن للحركة",
+        "description": "القانون الأول والثاني والثالث",
+        "duration": 55,
+        "isFree": false
+      }
+    ],
+    "id": "c1"
+  },
+  {
+    "title": "الرياضيات - التفاضل والتكامل",
+    "description": "شرح كامل لوحدة التفاضل والتكامل للثانوية العامة مع حل جميع تمارين الكتاب المدرسي.",
+    "category": "رياضيات",
+    "price": 349,
+    "isFree": false,
+    "image": "https://images.unsplash.com/photo-1509228468518-180dd4864904?w=800&q=80",
+    "rating": 4.9,
+    "studentsCount": 2150,
+    "duration": 2400,
+    "lessons": [
+      {
+        "id": "l6",
+        "title": "النهايات",
+        "description": "مفهوم النهاية وطرق حسابها",
+        "duration": 35,
+        "isFree": true
+      },
+      {
+        "id": "l7",
+        "title": "اتصال الدالة",
+        "description": "شروط اتصال الدالة عند نقطة",
+        "duration": 30,
+        "isFree": false
+      },
+      {
+        "id": "l8",
+        "title": "مشتقة الدالة",
+        "description": "تعريف المشتقة وقواعد الاشتقاق",
+        "duration": 45,
+        "isFree": false
+      },
+      {
+        "id": "l9",
+        "title": "تطبيقات المشتقة",
+        "description": "النهايات العظمى والصغرى",
+        "duration": 50,
+        "isFree": false
+      }
+    ],
+    "id": "c2"
+  },
+  {
+    "title": "الكيمياء العضوية",
+    "description": "كورس متكامل في الكيمياء العضوية يبدأ من الصفر حتى الاحتراف مع شرح تفاعلات المركبات العضوية.",
+    "category": "كيمياء",
+    "price": 0,
+    "isFree": true,
+    "image": "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=800&q=80",
+    "rating": 4.6,
+    "studentsCount": 980,
+    "duration": 1200,
+    "lessons": [
+      {
+        "id": "l10",
+        "title": "مقدمة الكيمياء العضوية",
+        "description": "نظرة تاريخية وأهمية الكيمياء العضوية",
+        "duration": 30,
+        "isFree": true
+      },
+      {
+        "id": "l11",
+        "title": "الهيدروكربونات",
+        "description": "الألكانات والألكينات والألكاينات",
+        "duration": 40,
+        "isFree": true
+      },
+      {
+        "id": "l12",
+        "title": "المجموعات الوظيفية",
+        "description": "الكحولات والأحماض والإسترات",
+        "duration": 50,
+        "isFree": true
+      }
+    ],
+    "id": "c3"
+  },
+  {
+    "title": "الأحياء - الخلية والوراثة",
+    "description": "شرح وحدتي الخلية والوراثة مع رسومات توضيحية ومقاطع مجهرية.",
+    "category": "أحياء",
+    "price": 249,
+    "isFree": false,
+    "image": "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=800&q=80",
+    "rating": 4.7,
+    "studentsCount": 1560,
+    "duration": 1500,
+    "lessons": [
+      {
+        "id": "l13",
+        "title": "تركيب الخلية",
+        "description": "الخلية بدائية وحقيقية النواة",
+        "duration": 35,
+        "isFree": true
+      },
+      {
+        "id": "l14",
+        "title": "انقسام الخلية",
+        "description": "الانقسام الميتوزي والميوزي",
+        "duration": 45,
+        "isFree": false
+      },
+      {
+        "id": "l15",
+        "title": "الـ DNA والـ RNA",
+        "description": "التركيب والوظيفة",
+        "duration": 50,
+        "isFree": false
+      },
+      {
+        "id": "l16",
+        "title": "قوانين مندل",
+        "description": "الصفات السائدة والمتنحية",
+        "duration": 40,
+        "isFree": false
+      }
+    ],
+    "id": "c4"
+  },
+  {
+    "title": "اللغة الإنجليزية - قواعد ومحادثة",
+    "description": "كورس شامل لتعلم قواعد اللغة الإنجليزية وتطوير مهارة المحادثة من المستوى المبتدئ للمتقدم.",
+    "category": "إنجليزي",
+    "price": 199,
+    "isFree": false,
+    "image": "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=800&q=80",
+    "rating": 4.5,
+    "studentsCount": 3200,
+    "duration": 2000,
+    "lessons": [
+      {
+        "id": "l17",
+        "title": "Present Simple",
+        "description": "الاستخدام والقواعد",
+        "duration": 25,
+        "isFree": true
+      },
+      {
+        "id": "l18",
+        "title": "Past Simple",
+        "description": "زمن الماضي البسيط",
+        "duration": 30,
+        "isFree": false
+      },
+      {
+        "id": "l19",
+        "title": "Conversation Basics",
+        "description": "جمل المحادثة الأساسية",
+        "duration": 35,
+        "isFree": false
+      }
+    ],
+    "id": "c5"
+  },
+  {
+    "title": "الفيزياء - الكهرباء والمغناطيسية",
+    "description": "شرح وحدتي الكهرباء والمغناطيسية مع تجارب توضيحية ومسائل محلولة.",
+    "category": "فيزياء",
+    "price": 279,
+    "isFree": false,
+    "image": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80",
+    "rating": 4.9,
+    "studentsCount": 890,
+    "duration": 1400,
+    "lessons": [
+      {
+        "id": "l20",
+        "title": "الشحنة الكهربائية",
+        "description": "مفهوم الشحنة وقانون كولوم",
+        "duration": 30,
+        "isFree": true
+      },
+      {
+        "id": "l21",
+        "title": "المجال الكهربائي",
+        "description": "خطوط المجال وشدة المجال",
+        "duration": 40,
+        "isFree": false
+      },
+      {
+        "id": "l22",
+        "title": "التيار الكهربائي",
+        "description": "قانون أوم والمقاومة",
+        "duration": 45,
+        "isFree": false
+      }
+    ],
+    "id": "c6"
+  }
+]

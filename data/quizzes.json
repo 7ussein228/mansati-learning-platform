@@ -1,0 +1,141 @@
+[
+  {
+    "title": "اختبار الفيزياء - المتجهات والحركة",
+    "description": "اختبار شامل على دروس المتجهات والحركة في خط مستقيم.",
+    "courseId": "c1",
+    "duration": 20,
+    "passingScore": 60,
+    "questions": [
+      {
+        "id": "q1",
+        "text": "ما هي وحدة قياس السرعة في النظام الدولي؟",
+        "type": "multiple",
+        "options": [
+          "م/ث",
+          "كجم/م",
+          "م/ث²",
+          "نيوتن"
+        ],
+        "correctAnswer": "م/ث",
+        "points": 10
+      },
+      {
+        "id": "q2",
+        "text": "السرعة كمية قياسية.",
+        "type": "truefalse",
+        "options": [
+          "صواب",
+          "خطأ"
+        ],
+        "correctAnswer": "خطأ",
+        "points": 10
+      },
+      {
+        "id": "q3",
+        "text": "إذا كانت السرعة الابتدائية لجسم 10 م/ث والتسارع 2 م/ث² لمدة 5 ثواني، فما السرعة النهائية؟",
+        "type": "multiple",
+        "options": [
+          "15 م/ث",
+          "20 م/ث",
+          "25 م/ث",
+          "30 م/ث"
+        ],
+        "correctAnswer": "20 م/ث",
+        "points": 15
+      },
+      {
+        "id": "q4",
+        "text": "التسارع هو معدل تغير السرعة بالنسبة للزمن.",
+        "type": "truefalse",
+        "options": [
+          "صواب",
+          "خطأ"
+        ],
+        "correctAnswer": "صواب",
+        "points": 10
+      }
+    ],
+    "id": "q1"
+  },
+  {
+    "title": "اختبار الرياضيات - النهايات والمشتقات",
+    "description": "اختبار على النهايات ومشتقات الدوال.",
+    "courseId": "c2",
+    "duration": 25,
+    "passingScore": 50,
+    "questions": [
+      {
+        "id": "q5",
+        "text": "ما هي مشتقة الدالة f(x) = x² ؟",
+        "type": "multiple",
+        "options": [
+          "x",
+          "2x",
+          "2",
+          "x²"
+        ],
+        "correctAnswer": "2x",
+        "points": 10
+      },
+      {
+        "id": "q6",
+        "text": "نهاية الدالة (sin x)/x عندما x تؤول للصفر تساوي صفر.",
+        "type": "truefalse",
+        "options": [
+          "صواب",
+          "خطأ"
+        ],
+        "correctAnswer": "خطأ",
+        "points": 10
+      },
+      {
+        "id": "q7",
+        "text": "مشتقة الدالة الثابتة تساوي:",
+        "type": "multiple",
+        "options": [
+          "الثابت نفسه",
+          "صفر",
+          "واحد",
+          "غير معرّفة"
+        ],
+        "correctAnswer": "صفر",
+        "points": 10
+      }
+    ],
+    "id": "q2"
+  },
+  {
+    "title": "اختبار الكيمياء - الهيدروكربونات",
+    "description": "اختبار على الهيدروكربونات.",
+    "courseId": "c3",
+    "duration": 15,
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q8",
+        "text": "الألكانات تحتوي على روابط أحادية فقط.",
+        "type": "truefalse",
+        "options": [
+          "صواب",
+          "خطأ"
+        ],
+        "correctAnswer": "صواب",
+        "points": 10
+      },
+      {
+        "id": "q9",
+        "text": "ما هو الصيغة العامة للألكانات؟",
+        "type": "multiple",
+        "options": [
+          "CnH2n",
+          "CnH2n+2",
+          "CnH2n-2",
+          "CnHn"
+        ],
+        "correctAnswer": "CnH2n+2",
+        "points": 15
+      }
+    ],
+    "id": "q3"
+  }
+]
