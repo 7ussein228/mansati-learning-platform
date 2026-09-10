@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import type { Course, Lesson, Category } from '@/lib/types';
@@ -15,6 +15,8 @@ import {
   DollarSign,
   FileText,
   Tag,
+  Image as ImageIcon,
+  X,
 } from 'lucide-react';
 
 interface Props {
@@ -42,17 +44,59 @@ interface LessonForm {
 
 export default function CourseForm({ mode, course }: Props) {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [title, setTitle] = useState(course?.title || '');
   const [description, setDescription] = useState(course?.description || '');
   const [category, setCategory] = useState<Category>(course?.category || 'فيزياء');
   const [price, setPrice] = useState<number>(course?.price || 0);
   const [isFree, setIsFree] = useState(course?.isFree || false);
   const [image, setImage] = useState(course?.image || defaultImages['فيزياء']);
+  const [uploading, setUploading] = useState(false);
   const [lessons, setLessons] = useState<LessonForm[]>(
     course?.lessons.map((l) => ({ ...l })) || []
   );
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    if (!allowedTypes.includes(file.type)) {
+      setError('يجب أن تكون الصورة من نوع JPEG, PNG, WebP أو GIF');
+      return;
+    }
+
+    // Validate file size (5MB max)
+    if (file.size > 5 * 1024 * 1024) {
+      setError('حجم الصورة يجب أن يكون أقل من 5 ميجابايت');
+      return;
+    }
+
+    setUploading(true);
+    setError('');
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'حدث خطأ أثناء الرفع');
+
+      setImage(data.url);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const addLesson = () => {
     setLessons((prev) => [
@@ -227,24 +271,77 @@ export default function CourseForm({ mode, course }: Props) {
               />
               <span className="text-sm font-medium text-slate-700">هذا الكورس مجاني</span>
             </label>
+          </div>
 
-            <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">
-                <Upload className="w-4 h-4 inline ml-1" />
-                رابط صورة الغلاف
-              </label>
-              <input
-                type="url"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
-                placeholder="https://..."
-              />
-              {image && (
-                <div
-                  className="mt-3 h-32 rounded-lg bg-cover bg-center border border-slate-200"
-                  style={{ backgroundImage: `url(${image})` }}
+          {/* Image Upload */}
+          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+            <h2 className="font-bold text-slate-900 flex items-center gap-2 mb-4">
+              <ImageIcon className="w-5 h-5 text-blue-600" />
+              صورة الغلاف
+            </h2>
+
+            <div className="space-y-4">
+              {/* Upload button */}
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition hover:border-blue-400 hover:bg-blue-50/50 ${
+                  uploading ? 'border-blue-400 bg-blue-50/50' : 'border-slate-300'
+                }`}
+              >
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
                 />
+                {uploading ? (
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full" />
+                    <span className="text-sm text-blue-600 font-medium">جاري رفع الصورة...</span>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center gap-2">
+                    <Upload className="w-8 h-8 text-slate-400" />
+                    <span className="text-sm text-slate-600 font-medium">
+                      اضغط لاختيار صورة من جهازك
+                    </span>
+                    <span className="text-xs text-slate-400">
+                      JPEG, PNG, WebP, GIF - حد أقصى 5 ميجابايت
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* URL input */}
+              <div>
+                <label className="block text-xs font-semibold text-slate-500 mb-1.5">
+                  أو أدخل رابط الصورة
+                </label>
+                <input
+                  type="url"
+                  value={image}
+                  onChange={(e) => setImage(e.target.value)}
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
+                  placeholder="https://..."
+                />
+              </div>
+
+              {/* Preview */}
+              {image && (
+                <div className="relative">
+                  <div
+                    className="h-40 rounded-xl bg-cover bg-center border border-slate-200"
+                    style={{ backgroundImage: `url(${image})` }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setImage('')}
+                    className="absolute top-2 left-2 p-1.5 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
               )}
             </div>
           </div>
@@ -346,7 +443,7 @@ export default function CourseForm({ mode, course }: Props) {
             <div className="space-y-2">
               <button
                 type="submit"
-                disabled={saving}
+                disabled={saving || uploading}
                 className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold rounded-xl transition flex items-center justify-center gap-2"
               >
                 {saving ? (
