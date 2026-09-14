@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Phone, Lock, Loader2, GraduationCap, ShieldCheck, ArrowRight, Rocket, Sparkles, Zap } from 'lucide-react';
-import { auth, RecaptchaVerifier, signInWithPhoneNumber } from '@/lib/firebase';
+import { getFirebaseAuth, RecaptchaVerifier, signInWithPhoneNumber } from '@/lib/firebase';
 import type { ConfirmationResult } from 'firebase/auth';
 
 type Step = 'phone' | 'otp';
@@ -35,7 +35,7 @@ export default function OTPLoginPage() {
 
   const setupRecaptcha = () => {
     if (!(window as any).recaptchaVerifier) {
-      (window as any).recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+      (window as any).recaptchaVerifier = new RecaptchaVerifier(getFirebaseAuth(), 'recaptcha-container', {
         size: 'invisible',
       });
     }
