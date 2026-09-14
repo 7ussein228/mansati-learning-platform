@@ -58,7 +58,7 @@ export default function OTPRegisterPage() {
       const formattedPhone = phone.startsWith('0') ? '+20' + phone.slice(1) : phone.startsWith('+20') ? phone : '+20' + phone;
 
       const appVerifier = setupRecaptcha();
-      const confirmation = await signInWithPhoneNumber(auth, formattedPhone, appVerifier);
+      const confirmation = await signInWithPhoneNumber(getFirebaseAuth(), formattedPhone, appVerifier);
       confirmationRef.current = confirmation;
       setStep('otp');
       setCountdown(60);
@@ -88,7 +88,7 @@ export default function OTPRegisterPage() {
       const formattedPhone = phone.startsWith('0') ? '+20' + phone.slice(1) : phone.startsWith('+20') ? phone : '+20' + phone;
 
       const appVerifier = setupRecaptcha();
-      const confirmation = await signInWithPhoneNumber(auth, formattedPhone, appVerifier);
+      const confirmation = await signInWithPhoneNumber(getFirebaseAuth(), formattedPhone, appVerifier);
       confirmationRef.current = confirmation;
       setCountdown(60);
     } catch (err: any) {
