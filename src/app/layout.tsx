@@ -4,7 +4,7 @@ import './globals.css';
 import { seedDatabase } from '@/lib/seed';
 
 export const metadata: Metadata = {
-  title: 'منصتي - منصة تعليمية متكاملة',
+  title: 'Tesla - منصة تعليمية متكاملة',
   description: 'منصة تعليمية للمرحلة الثانوية مع الأستاذ أحمد محمد',
 };
 

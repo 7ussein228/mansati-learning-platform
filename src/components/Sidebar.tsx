@@ -49,7 +49,7 @@ export default function Sidebar({ role, name }: SidebarProps) {
           <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
             <GraduationCap className="w-6 h-6 text-white" />
           </div>
-          <span className="text-2xl font-bold text-blue-600">منصتي</span>
+          <span className="text-2xl font-bold text-blue-600">Tesla</span>
         </Link>
       </div>
 

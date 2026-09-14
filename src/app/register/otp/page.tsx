@@ -174,7 +174,7 @@ export default function OTPRegisterPage() {
             <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
               <GraduationCap className="w-7 h-7" />
             </div>
-            <span className="text-3xl font-extrabold">منصتي</span>
+            <span className="text-3xl font-extrabold">Tesla</span>
           </Link>
           <h1 className="text-4xl font-extrabold mb-4 leading-tight">
             أنشئ حسابك بالموبايل
@@ -205,7 +205,7 @@ export default function OTPRegisterPage() {
             <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
               <GraduationCap className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-extrabold text-blue-600">منصتي</span>
+            <span className="text-2xl font-extrabold text-blue-600">Tesla</span>
           </Link>
 
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">

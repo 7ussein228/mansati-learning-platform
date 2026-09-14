@@ -49,7 +49,7 @@ export default async function AdminDashboard() {
           لوحة التحكم
         </h1>
         <p className="text-slate-500 mt-1">
-          مرحباً، {settings?.platformName || 'منصتي'} - نظرة عامة على المنصة
+          مرحباً، {settings?.platformName || 'Tesla'} - نظرة عامة على المنصة
         </p>
       </div>
 

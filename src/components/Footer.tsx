@@ -23,7 +23,7 @@ export default function Footer({ settings }: FooterProps) {
               <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
                 <GraduationCap className="w-6 h-6 text-white" />
               </div>
-              <span className="text-2xl font-bold text-white">{settings?.platformName || 'منصتي'}</span>
+              <span className="text-2xl font-bold text-white">{settings?.platformName || 'Tesla'}</span>
             </div>
             <p className="text-slate-400 text-sm leading-relaxed mb-4">
               منصة تعليمية متكاملة للمرحلة الثانوية، نوفر لك أفضل الكورسات والاختبارات والشهادات المعتمدة.
@@ -82,7 +82,7 @@ export default function Footer({ settings }: FooterProps) {
         </div>
 
         <div className="border-t border-slate-800 mt-10 pt-6 text-center text-sm text-slate-500">
-          © {year} {settings?.platformName || 'منصتي'}. جميع الحقوق محفوظة.
+          © {year} {settings?.platformName || 'Tesla'}. جميع الحقوق محفوظة.
         </div>
       </div>
     </footer>

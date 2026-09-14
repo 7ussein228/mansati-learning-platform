@@ -47,7 +47,7 @@ export default function MobileTopBar({ role, name }: { role: 'student' | 'admin'
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
             <GraduationCap className="w-5 h-5 text-white" />
           </div>
-          <span className="text-xl font-bold text-blue-600">منصتي</span>
+          <span className="text-xl font-bold text-blue-600">Tesla</span>
         </Link>
         <button onClick={() => setOpen(true)} className="p-2 text-slate-700">
           <Menu className="w-6 h-6" />
@@ -63,7 +63,7 @@ export default function MobileTopBar({ role, name }: { role: 'student' | 'admin'
                 <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
                   <GraduationCap className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-xl font-bold text-blue-600">منصتي</span>
+                <span className="text-xl font-bold text-blue-600">Tesla</span>
               </div>
               <button onClick={() => setOpen(false)} className="p-2 text-slate-700">
                 <X className="w-5 h-5" />

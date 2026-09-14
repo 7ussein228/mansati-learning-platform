@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 
 const defaultSettings: Settings = {
-  platformName: 'منصتي',
+  platformName: 'Tesla',
   description: 'منصة تعليمية متكاملة للطالب المصري',
   email: 'info@mansati.com',
   phone: '01012345678',

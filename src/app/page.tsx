@@ -93,7 +93,7 @@ export default async function LandingPage() {
             <div className="text-right">
               <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 rounded-full text-sm mb-6">
                 <Sparkles className="w-4 h-4 text-yellow-400" />
-                <span>منصة {settings?.platformName || 'منصتي'} التعليمية</span>
+                <span>منصة {settings?.platformName || 'Tesla'} التعليمية</span>
               </div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
                 تعلّم بذكاء
@@ -177,7 +177,7 @@ export default async function LandingPage() {
       <section id="features" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center mb-14">
           <span className="inline-block bg-blue-100 text-blue-700 text-sm font-semibold px-4 py-1.5 rounded-full mb-4">
-            لماذا منصتي؟
+            لماذا Tesla؟
           </span>
           <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
             كل ما تحتاجه للتفوق في مكان واحد
@@ -242,7 +242,7 @@ export default async function LandingPage() {
               جاهز تبدأ رحلة التفوق؟
             </h2>
             <p className="text-blue-100 max-w-xl mx-auto mb-8 text-lg">
-              انضم لآلاف الطلاب الذين حققوا نتائج ممتازة مع منصتي وابدأ مجاناً
+              انضم لآلاف الطلاب الذين حققوا نتائج ممتازة مع Tesla وابدأ مجاناً
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link

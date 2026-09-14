@@ -215,8 +215,8 @@ export const initialGroups: Omit<Group, 'id'>[] = [
 ];
 
 export const initialSettings: Settings = {
-  platformName: 'منصتي',
-  description: 'منصة تعليمية متكاملة للطالب المصري - مع الأستاذ أحمد محمد',
+  platformName: 'Tesla',
+  description: 'منصة تعليمية متكاملة للطالب المصري - مع الأستاذ حسين علي',
   email: 'info@mansati.com',
   phone: '01012345678',
   facebook: 'https://facebook.com/mansati',
