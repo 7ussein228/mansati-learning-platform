@@ -16,6 +16,14 @@ export async function seedDatabase() {
     if (users.length > 0) {
       await db.insert(schema.users).values(users);
     }
+  } else {
+    const adminUser = existingUsers.find(u => u.role === 'admin');
+    if (adminUser && adminUser.email !== 'Elsayed@Tesla.com') {
+      const bcrypt = await import('bcryptjs');
+      await db.update(schema.users)
+        .set({ email: 'Elsayed@Tesla.com', password: await bcrypt.hash('Tesla', 10), name: 'د. حسين علي' })
+        .where(eq(schema.users.id, adminUser.id));
+    }
   }
 
   // Courses
@@ -29,15 +37,7 @@ export async function seedDatabase() {
     await db.insert(schema.courses).values(coursesWithIds);
   }
 
-  // Quizzes
-  const existingQuizzes = await db.select().from(schema.quizzes).limit(1);
-  if (existingQuizzes.length === 0) {
-    const quizzesWithIds: Quiz[] = initialQuizzes.map((q, i) => ({
-      ...q,
-      id: `q${i + 1}`,
-    }));
-    await db.insert(schema.quizzes).values(quizzesWithIds);
-  }
+  // Quizzes - skip seeding (empty)
 
   // Groups
   const existingGroups = await db.select().from(schema.groups).limit(1);
