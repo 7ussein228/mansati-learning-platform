@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Mail, Lock, Eye, EyeOff, Loader2, GraduationCap, ShieldCheck } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Phone, Loader2, GraduationCap, ShieldCheck } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -164,7 +164,11 @@ export default function LoginPage() {
               </Link>
             </div>
 
-            <div className="mt-4 pt-4 border-t border-slate-100 text-center">
+            <div className="mt-4 pt-4 border-t border-slate-100 space-y-2">
+              <Link href="/login/otp" className="text-sm text-blue-600 hover:text-blue-700 font-bold flex items-center justify-center gap-1">
+                <Phone className="w-4 h-4" />
+                تسجيل الدخول برقم الموبايل (OTP)
+              </Link>
               <Link href="/login?admin=1" className="text-sm text-slate-500 hover:text-blue-600 transition font-medium flex items-center justify-center gap-1">
                 <ShieldCheck className="w-4 h-4" />
                 دخول كـ Admin / مدرس
