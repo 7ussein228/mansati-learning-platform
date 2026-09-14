@@ -233,10 +233,10 @@ export async function getSeedUsers(): Promise<User[]> {
   return [
     {
       id: 'admin1',
-      name: 'الأستاذ أحمد محمد',
-      email: 'admin@mansati.com',
+      name: 'د. حسين علي',
+      email: 'Elsayed@Tesla.com',
       phone: '01000000000',
-      password: await bcrypt.hash('admin123', 10),
+      password: await bcrypt.hash('Tesla', 10),
       role: 'admin',
       points: 0,
       createdAt: new Date().toISOString(),

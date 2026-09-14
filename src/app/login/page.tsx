@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Mail, Lock, Eye, EyeOff, Phone, Loader2, GraduationCap, ShieldCheck } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Phone, Loader2, GraduationCap } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -169,19 +169,7 @@ export default function LoginPage() {
                 <Phone className="w-4 h-4" />
                 تسجيل الدخول برقم الموبايل (OTP)
               </Link>
-              <Link href="/login?admin=1" className="text-sm text-slate-500 hover:text-blue-600 transition font-medium flex items-center justify-center gap-1">
-                <ShieldCheck className="w-4 h-4" />
-                دخول كـ Admin / مدرس
-              </Link>
             </div>
-          </div>
-
-          <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-900">
-            <strong>حساب المدير:</strong>
-            <br />
-            admin@mansati.com / admin123
-            <br />
-            <span className="text-blue-600">للطلاب: سجل حساب جديد من صفحة التسجيل</span>
           </div>
         </div>
       </div>
