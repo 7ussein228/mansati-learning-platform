@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Phone, Lock, Loader2, GraduationCap, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Phone, Lock, Loader2, GraduationCap, ShieldCheck, ArrowRight, Rocket, Sparkles, Zap } from 'lucide-react';
 import { auth, RecaptchaVerifier, signInWithPhoneNumber } from '@/lib/firebase';
 import type { ConfirmationResult } from 'firebase/auth';
 
@@ -58,11 +58,11 @@ export default function OTPLoginPage() {
     } catch (err: any) {
       console.error('Send OTP error:', err);
       if (err.code === 'auth/invalid-phone-number') {
-        setError('رقم الموبايل غير صحيح');
+        setError('رقم الموبايل غير صحيح. تأكد من الرقم وأعد المحاولة');
       } else if (err.code === 'auth/too-many-requests') {
-        setError('لقد تجاوزت الحد المسموح. حاول مرة أخرى لاحقاً');
+        setError('لقد أرسلنا الكود قبل كده. استنى شوية وجرّب تاني');
       } else {
-        setError('حدث خطأ أثناء إرسال الكود. حاول مرة أخرى');
+        setError('فيه مشكلة حصلت. جرّب تاني después de un momento');
       }
       try {
         (window as any).recaptchaVerifier?.reset?.();
@@ -85,7 +85,7 @@ export default function OTPLoginPage() {
       confirmationRef.current = confirmation;
       setCountdown(60);
     } catch (err: any) {
-      setError('حدث خطأ أثناء إعادة إرسال الكود');
+      setError('مقدرناش نبعت الكود تاني. جرّب بعد شوية');
       try {
         (window as any).recaptchaVerifier?.reset?.();
       } catch {}
@@ -119,14 +119,14 @@ export default function OTPLoginPage() {
     try {
       const otpCode = otp.join('');
       if (otpCode.length !== 6) {
-        setError('أدخل كود التحقق كاملاً');
+        setError('ادخل الكود الستة أرقام كلهم');
         setLoading(false);
         return;
       }
 
       const result = await confirmationRef.current?.confirm(otpCode);
       if (!result) {
-        setError('حدث خطأ. حاول مرة أخرى');
+        setError('فيه مشكلة حصلت. جرّب تاني');
         setLoading(false);
         return;
       }
@@ -147,11 +147,11 @@ export default function OTPLoginPage() {
     } catch (err: any) {
       console.error('Verify OTP error:', err);
       if (err.code === 'auth/invalid-verification-code') {
-        setError('كود التحقق غير صحيح');
+        setError('الكود غلط. تأكد من الكود وأعد المحاولة');
       } else if (err.code === 'auth/code-expired') {
-        setError('كود التحقق منتهي الصلاحية. اطلب كود جديد');
+        setError('الكود خلص صلاحيته. اطلب كود جديد');
       } else {
-        setError(err.message || 'حدث خطأ أثناء التحقق');
+        setError(err.message || 'فيه مشكلة. جرّب تاني');
       }
     } finally {
       setLoading(false);
@@ -167,25 +167,25 @@ export default function OTPLoginPage() {
             <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
               <GraduationCap className="w-7 h-7" />
             </div>
-            <span className="text-3xl font-extrabold">منصتي</span>
+            <span className="text-3xl font-extrabold">د. حسين علي</span>
           </Link>
           <h1 className="text-4xl font-extrabold mb-4 leading-tight">
-            تسجيل الدخول بالموبايل
+            رجعت تاني؟ يلا نكمّل! 🚀
           </h1>
           <p className="text-blue-100 text-lg mb-8 leading-relaxed">
-            أدخل رقم موبايلك واحصل على كود تحقق في ثوانٍ معدودة.
+            سجّل دخولك في ثانية واحدة وكمّل رحلتك العلمية. كل درس جديد = خطوة أقرب للنجاح!
           </p>
           <div className="space-y-4">
             {[
-              'سرعة في تسجيل الدخول بدون كلمات مرور',
-              'أمان متقدم بفضل Firebase Authentication',
-              'كل شيء في موبايلك',
-            ].map((t, i) => (
+              { icon: Rocket, text: 'الدروس المستنية ليك كتير يلا نخلّيها!', color: 'text-yellow-400' },
+              { icon: Zap, text: ' solved في انتظارك. ادخل وخلّصهم!', color: 'text-green-400' },
+              { icon: Sparkles, text: 'مستقبلك بيستناك. الخطوة الجاية ليك!', color: 'text-purple-400' },
+            ].map((item, i) => (
               <div key={i} className="flex items-center gap-3 text-blue-50">
-                <div className="w-6 h-6 rounded-full bg-yellow-400/20 flex items-center justify-center flex-shrink-0">
-                  <ShieldCheck className="w-4 h-4 text-yellow-400" />
+                <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                  <item.icon className={`w-4 h-4 ${item.color}`} />
                 </div>
-                <span>{t}</span>
+                <span>{item.text}</span>
               </div>
             ))}
           </div>
@@ -198,17 +198,17 @@ export default function OTPLoginPage() {
             <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
               <GraduationCap className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-extrabold text-blue-600">منصتي</span>
+            <span className="text-2xl font-extrabold text-blue-600">د. حسين علي</span>
           </Link>
 
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
             <h2 className="text-2xl font-extrabold text-slate-900 mb-2">
-              {step === 'phone' ? 'رقم الموبايل' : 'كود التحقق'}
+              {step === 'phone' ? 'ادخل رقم موبايلك 📱' : 'الكود وصلك! 🔐'}
             </h2>
             <p className="text-slate-500 text-sm mb-6">
               {step === 'phone'
-                ? 'أدخل رقم موبايلك لاستلام كود التحقق'
-                : `أدخل الكود المرسل على ${phone}`
+                ? 'هنبعتلك كود تحقق على الموبايل. ادخل الرقم وأنتِ جاهز!'
+                : `دخلنا الكود على ${phone}. تحقق من الرسالة وأدخل الكود`
               }
             </p>
 
@@ -245,15 +245,15 @@ export default function OTPLoginPage() {
                   disabled={loading || phone.length < 10}
                   className="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold rounded-lg transition flex items-center justify-center gap-2"
                 >
-                  {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Phone className="w-5 h-5" />}
-                  إرسال كود التحقق
+                  {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Rocket className="w-5 h-5" />}
+                  بعت الكود! يلا 🚀
                 </button>
               </form>
             ) : (
               <form onSubmit={handleVerifyOTP} className="space-y-4">
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-3 text-center">
-                    أدخل الكود المكون من 6 أرقام
+                    اكتب الكود اللي وصلك
                   </label>
                   <div className="flex gap-2 justify-center" dir="ltr">
                     {otp.map((digit, index) => (
@@ -277,14 +277,14 @@ export default function OTPLoginPage() {
                   disabled={loading || otp.join('').length !== 6}
                   className="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold rounded-lg transition flex items-center justify-center gap-2"
                 >
-                  {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Lock className="w-5 h-5" />}
-                  تسجيل الدخول
+                  {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Sparkles className="w-5 h-5" />}
+                  يلا ندخل! ✨
                 </button>
 
                 <div className="text-center">
                   {countdown > 0 ? (
                     <p className="text-sm text-slate-500">
-                      إعادة الإرسال بعد <span className="font-bold text-blue-600">{countdown}</span> ثانية
+                      الكود هيتبعت تاني بعد <span className="font-bold text-blue-600">{countdown}</span> ثانية
                     </p>
                   ) : (
                     <button
@@ -293,7 +293,7 @@ export default function OTPLoginPage() {
                       disabled={loading}
                       className="text-sm text-blue-600 hover:text-blue-700 font-bold"
                     >
-                      إعادة إرسال الكود
+                      ابعت الكود تاني 🔄
                     </button>
                   )}
                 </div>
@@ -304,21 +304,21 @@ export default function OTPLoginPage() {
                   className="w-full flex items-center justify-center gap-1 text-sm text-slate-500 hover:text-slate-700 transition"
                 >
                   <ArrowRight className="w-4 h-4" />
-                  تغيير رقم الموبايل
+                  عايز أغير الرقم
                 </button>
               </form>
             )}
 
             <div className="mt-6 text-center text-sm text-slate-600">
-              ليس لديك حساب؟{' '}
+              معندكش حساب؟{' '}
               <Link href="/register/otp" className="text-blue-600 hover:text-blue-700 font-bold">
-                سجل برقم الموبايل
+                اعمل حساب جديد 🚀
               </Link>
             </div>
 
             <div className="mt-4 pt-4 border-t border-slate-100 text-center">
               <Link href="/login" className="text-sm text-slate-500 hover:text-blue-600 transition font-medium">
-                تسجيل الدخول بالبريد وكلمة المرور
+                تسجيل الدخول بالإيميل وكلمة المرور
               </Link>
             </div>
           </div>
