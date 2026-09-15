@@ -33,10 +33,6 @@ export async function getCurrentUser(): Promise<User | null> {
   const cookieStore = await cookies();
   const userId = cookieStore.get(COOKIE_NAME)?.value;
   if (!userId) return null;
-  try {
-    const { seedDatabase } = await import('./seed');
-    await seedDatabase();
-  } catch {}
   const users = await readDB<User>('users');
   return users.find(u => u.id === userId) || null;
 }
