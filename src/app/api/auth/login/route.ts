@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
-import { readDB } from '@/lib/db';
+import { db } from '@/lib/db';
+import * as schema from '@/db/schema';
 import { comparePassword, createSession } from '@/lib/auth';
-import type { User } from '@/lib/types';
+import { eq } from 'drizzle-orm';
 
 export async function POST(request: Request) {
   try {
@@ -12,8 +13,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'الإيميل وكلمة المرور مطلوبان' }, { status: 400 });
     }
 
-    const users = await readDB<User>('users');
-    const user = users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+    const rows = await db.select().from(schema.users).where(eq(schema.users.email, email.toLowerCase())).limit(1);
+    const user = rows[0];
 
     if (!user) {
       return NextResponse.json({ error: 'بيانات الدخول غير صحيحة' }, { status: 401 });

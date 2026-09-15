@@ -6,21 +6,25 @@ import { getCurrentUser } from '@/lib/auth';
 export const dynamic = 'force-dynamic';
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const user = await getCurrentUser();
-  if (!user) {
+  try {
+    const user = await getCurrentUser();
+    if (!user) {
+      redirect('/login');
+    }
+    if (user.role !== 'admin') {
+      redirect('/student');
+    }
+
+    return (
+      <div className="min-h-screen" style={{ background: 'var(--bg-space)' }}>
+        <Sidebar role="admin" name={user.name} />
+        <MobileTopBar role="admin" name={user.name} />
+        <main className="lg:mr-64">
+          <div className="p-4 md:p-6 lg:p-8 max-w-7xl mx-auto">{children}</div>
+        </main>
+      </div>
+    );
+  } catch {
     redirect('/login');
   }
-  if (user.role !== 'admin') {
-    redirect('/student');
-  }
-
-  return (
-    <div className="min-h-screen" style={{ background: 'var(--bg-space)' }}>
-      <Sidebar role="admin" name={user.name} />
-      <MobileTopBar role="admin" name={user.name} />
-      <main className="lg:mr-64">
-        <div className="p-4 md:p-6 lg:p-8 max-w-7xl mx-auto">{children}</div>
-      </main>
-    </div>
-  );
 }

@@ -1,6 +1,8 @@
 import { cookies } from 'next/headers';
 import bcrypt from 'bcryptjs';
-import { readDB } from './db';
+import { db } from './db';
+import * as schema from '@/db/schema';
+import { eq } from 'drizzle-orm';
 import type { User } from './types';
 
 const COOKIE_NAME = 'mansati_session';
@@ -20,7 +22,7 @@ export async function createSession(userId: string, remember: boolean = true) {
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     path: '/',
-    maxAge: remember ? 60 * 60 * 24 * 30 : 60 * 60 * 24, // 30 days or 1 day
+    maxAge: remember ? 60 * 60 * 24 * 30 : 60 * 60 * 24,
   });
 }
 
@@ -30,11 +32,15 @@ export async function destroySession() {
 }
 
 export async function getCurrentUser(): Promise<User | null> {
-  const cookieStore = await cookies();
-  const userId = cookieStore.get(COOKIE_NAME)?.value;
-  if (!userId) return null;
-  const users = await readDB<User>('users');
-  return users.find(u => u.id === userId) || null;
+  try {
+    const cookieStore = await cookies();
+    const userId = cookieStore.get(COOKIE_NAME)?.value;
+    if (!userId) return null;
+    const rows = await db.select().from(schema.users).where(eq(schema.users.id, userId)).limit(1);
+    return (rows[0] as User) || null;
+  } catch {
+    return null;
+  }
 }
 
 export async function requireUser(): Promise<User> {

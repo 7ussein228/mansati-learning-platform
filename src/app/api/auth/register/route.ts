@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
-import { readDB, writeDB, generateId } from '@/lib/db';
+import { db } from '@/lib/db';
+import * as schema from '@/db/schema';
+import { generateId } from '@/lib/db';
 import { hashPassword, createSession } from '@/lib/auth';
+import { eq } from 'drizzle-orm';
 import type { User } from '@/lib/types';
 
 export async function POST(request: Request) {
@@ -20,26 +23,25 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'يجب الموافقة على الشروط والأحكام' }, { status: 400 });
     }
 
-    const users = await readDB<User>('users');
-    if (users.find((u) => u.email.toLowerCase() === email.toLowerCase())) {
+    const existing = await db.select().from(schema.users).where(eq(schema.users.email, email.toLowerCase())).limit(1);
+    if (existing.length > 0) {
       return NextResponse.json({ error: 'هذا الإيميل مسجل بالفعل' }, { status: 400 });
     }
 
     const hashedPassword = await hashPassword(password);
-    const newUser: User = {
+    const newUser = {
       id: generateId(),
       name,
       email: email.toLowerCase(),
-      phone,
+      phone: phone || null,
       password: hashedPassword,
-      role: 'student',
+      role: 'student' as const,
       points: 0,
       createdAt: new Date().toISOString(),
-      status: 'active',
+      status: 'active' as const,
     };
 
-    users.push(newUser);
-    await writeDB('users', users);
+    await db.insert(schema.users).values(newUser);
     await createSession(newUser.id);
 
     return NextResponse.json({

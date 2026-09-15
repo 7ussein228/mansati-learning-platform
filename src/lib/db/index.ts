@@ -11,22 +11,22 @@ function getDb(): NodePgDatabase<typeof schema> {
 
   const databaseUrl = process.env.DATABASE_URL;
   if (!databaseUrl) {
-    throw new Error(
-      "DATABASE_URL is required. Create a .env.local file with your PostgreSQL connection string."
-    );
+    throw new Error("DATABASE_URL is required");
   }
 
-  const pool = new Pool({ connectionString: databaseUrl });
+  const pool = new Pool({
+    connectionString: databaseUrl,
+    max: 3,
+    idleTimeoutMillis: 10000,
+    connectionTimeoutMillis: 10000,
+    ssl: { rejectUnauthorized: false },
+  });
+
   const dbInstance = drizzle(pool, { schema });
-
-  if (process.env.NODE_ENV !== "production") {
-    globalForDb.__mansatiDb = dbInstance;
-  }
-
+  globalForDb.__mansatiDb = dbInstance;
   return dbInstance;
 }
 
-// Lazy db getter - only connects when actually used
 export const db = new Proxy({} as NodePgDatabase<typeof schema>, {
   get(_target, prop, receiver) {
     const database = getDb();
@@ -38,7 +38,6 @@ export const db = new Proxy({} as NodePgDatabase<typeof schema>, {
   },
 });
 
-// Table map for readDB/writeDB compatibility
 const tableMap = {
   users: schema.users,
   courses: schema.courses,
@@ -92,7 +91,6 @@ export function generateId(): string {
   return Date.now().toString(36) + Math.random().toString(36).substring(2, 9);
 }
 
-// Settings helper
 export async function getSettings(): Promise<any> {
   const database = getDb();
   const rows = await database.select().from(schema.settings).limit(1);
