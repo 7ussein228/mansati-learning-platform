@@ -37,7 +37,7 @@ export async function seedDatabase() {
     await db.insert(schema.courses).values(coursesWithIds);
   }
 
-  // Quizzes - skip seeding (empty)
+  // Quizzes
 
   // Groups
   const existingGroups = await db.select().from(schema.groups).limit(1);
