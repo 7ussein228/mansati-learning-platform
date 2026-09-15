@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import './globals.css';
-import { seedDatabase } from '@/lib/seed';
 
 export const metadata: Metadata = {
   title: 'Tesla - منصة تعليمية متكاملة',
@@ -9,7 +8,6 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  await seedDatabase();
   return (
     <html lang="ar" dir="rtl">
       <head>

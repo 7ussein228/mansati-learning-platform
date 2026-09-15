@@ -19,16 +19,32 @@ import {
 export const dynamic = 'force-dynamic';
 
 export default async function StudentDashboard() {
-  const currentUser = (await getCurrentUser())!;
-  const courses = await readDB<Course>('courses');
-  const quizzes = await readDB<Quiz>('quizzes');
-  const enrollments = await readDB<Enrollment>('enrollments');
-  const users = await readDB<User>('users');
-  const certs = await readDB<Certificate>('certificates');
+  let currentUser;
+  let courses: Course[] = [];
+  let quizzes: Quiz[] = [];
+  let enrollments: Enrollment[] = [];
+  let users: User[] = [];
+  let certs: Certificate[] = [];
 
-  const myEnrollments = enrollments.filter((e) => e.studentId === currentUser.id);
+  try {
+    currentUser = await getCurrentUser();
+    if (!currentUser) {
+      return null;
+    }
+    [courses, quizzes, enrollments, users, certs] = await Promise.all([
+      readDB<Course>('courses').catch(() => []),
+      readDB<Quiz>('quizzes').catch(() => []),
+      readDB<Enrollment>('enrollments').catch(() => []),
+      readDB<User>('users').catch(() => []),
+      readDB<Certificate>('certificates').catch(() => []),
+    ]);
+  } catch {
+    return null;
+  }
+
+  const myEnrollments = enrollments.filter((e) => e.studentId === currentUser!.id);
   const completedLessons = myEnrollments.reduce((sum, e) => sum + e.completedLessons.length, 0);
-  const myCerts = certs.filter((c) => c.studentId === currentUser.id);
+  const myCerts = certs.filter((c) => c.studentId === currentUser!.id);
 
   const inProgress = courses.slice(0, 3).map((c, i) => ({
     ...c,
@@ -43,10 +59,10 @@ export default async function StudentDashboard() {
     .slice(0, 5);
 
   const stats = [
-    { label: 'دروس مكتملة', value: completedLessons || 24, icon: CheckCircle2, accent: 'var(--neon-green)' },
-    { label: 'متوسط الدرجات', value: '89%', icon: Award, accent: 'var(--atom-gold)' },
-    { label: 'نقاطك', value: currentUser.points || 850, icon: Sparkles, accent: 'var(--neon-blue)' },
-    { label: 'شهادات', value: myCerts.length || 2, icon: Trophy, accent: 'var(--neon-purple)' },
+    { label: 'دروس مكتملة', value: completedLessons || 0, icon: CheckCircle2, accent: 'var(--neon-green)' },
+    { label: 'متوسط الدرجات', value: '0%', icon: Award, accent: 'var(--atom-gold)' },
+    { label: 'نقاطك', value: currentUser!.points || 0, icon: Sparkles, accent: 'var(--neon-blue)' },
+    { label: 'شهادات', value: myCerts.length || 0, icon: Trophy, accent: 'var(--neon-purple)' },
   ];
 
   const getRankIcon = (i: number) => {
@@ -69,7 +85,7 @@ export default async function StudentDashboard() {
         <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <p className="mb-1" style={{ color: 'rgba(255,255,255,0.7)' }}>أهلاً بعودتك</p>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-white">{currentUser.name}</h1>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-white">{currentUser!.name}</h1>
             <p className="mt-2 text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>تابع رحلتك التعليمية وكمّل ما بدأته</p>
           </div>
           <Link
@@ -131,6 +147,9 @@ export default async function StudentDashboard() {
             </Link>
           </div>
           <div className="p-5 space-y-4">
+            {inProgress.length === 0 && (
+              <p className="text-center py-8" style={{ color: 'var(--text-dim)' }}>مافيش كورسات حالياً</p>
+            )}
             {inProgress.map((c) => (
               <Link href={`/student/courses/${c.id}`} key={c.id} className="block">
                 <div
@@ -181,6 +200,9 @@ export default async function StudentDashboard() {
             <h2 className="text-lg font-bold" style={{ color: 'var(--text-pure)' }}>اختبارات قادمة</h2>
           </div>
           <div className="p-5 space-y-3">
+            {upcoming.length === 0 && (
+              <p className="text-center py-8" style={{ color: 'var(--text-dim)' }}>مافيش اختبارات حالياً</p>
+            )}
             {upcoming.map((q) => (
               <Link
                 href={`/student/quizzes/${q.id}`}
@@ -237,8 +259,11 @@ export default async function StudentDashboard() {
         </div>
         <div className="p-5">
           <div className="space-y-2">
+            {leaderboard.length === 0 && (
+              <p className="text-center py-8" style={{ color: 'var(--text-dim)' }}>مافيش طلاب حالياً</p>
+            )}
             {leaderboard.map((u, i) => {
-              const isMe = u.id === currentUser.id;
+              const isMe = u.id === currentUser!.id;
               return (
                 <div
                   key={u.id}

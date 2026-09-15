@@ -1,13 +1,10 @@
 import { NextResponse } from 'next/server';
 import { readDB } from '@/lib/db';
 import { comparePassword, createSession } from '@/lib/auth';
-import { seedDatabase } from '@/lib/seed';
 import type { User } from '@/lib/types';
 
 export async function POST(request: Request) {
   try {
-    await seedDatabase();
-
     const body = await request.json();
     const { email, password, remember } = body;
 
