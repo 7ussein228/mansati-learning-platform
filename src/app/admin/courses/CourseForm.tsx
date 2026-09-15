@@ -62,14 +62,12 @@ export default function CourseForm({ mode, course }: Props) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate file type
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
     if (!allowedTypes.includes(file.type)) {
       setError('يجب أن تكون الصورة من نوع JPEG, PNG, WebP أو GIF');
       return;
     }
 
-    // Validate file size (5MB max)
     if (file.size > 5 * 1024 * 1024) {
       setError('حجم الصورة يجب أن يكون أقل من 5 ميجابايت');
       return;
@@ -166,59 +164,84 @@ export default function CourseForm({ mode, course }: Props) {
     }
   };
 
+  const inputStyle: React.CSSProperties = {
+    width: '100%',
+    padding: '10px 12px',
+    background: 'rgba(255,255,255,0.04)',
+    border: '1px solid var(--border-plasma)',
+    borderRadius: '12px',
+    color: 'var(--text-pure)',
+    outline: 'none',
+  };
+
   return (
     <div className="space-y-6 animate-fadeIn">
       <div className="flex items-center gap-3">
         <Link
           href="/admin/courses"
-          className="p-2 hover:bg-slate-200 rounded-lg transition"
+          className="p-2 rounded-lg transition-all duration-300"
+          style={{ border: '1px solid var(--border-plasma)', color: 'var(--text-dim)' }}
         >
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900">
+          <h1 className="text-2xl md:text-3xl font-extrabold" style={{ color: 'var(--text-pure)' }}>
             {mode === 'new' ? 'إضافة كورس جديد' : 'تعديل الكورس'}
           </h1>
-          <p className="text-slate-500 text-sm mt-1">
+          <p className="text-sm mt-1" style={{ color: 'var(--text-dim)' }}>
             {mode === 'new' ? 'أدخل بيانات الكورس والدروس' : 'حدّث بيانات الكورس'}
           </p>
         </div>
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-lg text-sm">
+        <div
+          className="p-3 rounded-lg text-sm"
+          style={{
+            background: 'rgba(255,80,80,0.1)',
+            border: '1px solid rgba(255,80,80,0.3)',
+            color: '#ff5050',
+          }}
+        >
           {error}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="grid lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          {/* Basic info */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
-            <h2 className="font-bold text-slate-900 flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-blue-600" />
+          <div
+            className="p-6 space-y-4"
+            style={{
+              background: 'var(--card-glass)',
+              border: '1px solid var(--border-plasma)',
+              borderRadius: '20px',
+              backdropFilter: 'blur(16px)',
+            }}
+          >
+            <h2 className="font-bold flex items-center gap-2" style={{ color: 'var(--text-pure)' }}>
+              <BookOpen className="w-5 h-5" style={{ color: 'var(--neon-blue)' }} />
               بيانات الكورس
             </h2>
 
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">عنوان الكورس</label>
+              <label className="block text-sm font-semibold mb-1.5" style={{ color: 'var(--text-dim)' }}>عنوان الكورس</label>
               <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                style={inputStyle}
                 placeholder="مثال: أساسيات الفيزياء"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">وصف الكورس</label>
+              <label className="block text-sm font-semibold mb-1.5" style={{ color: 'var(--text-dim)' }}>وصف الكورس</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={4}
-                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none resize-none"
+                style={{ ...inputStyle, resize: 'none' }}
                 placeholder="اكتب وصفاً شاملاً للكورس..."
                 required
               />
@@ -226,17 +249,17 @@ export default function CourseForm({ mode, course }: Props) {
 
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+                <label className="block text-sm font-semibold mb-1.5" style={{ color: 'var(--text-dim)' }}>
                   <Tag className="w-4 h-4 inline ml-1" />
                   التصنيف
                 </label>
                 <select
                   value={category}
                   onChange={(e) => handleCategoryChange(e.target.value as Category)}
-                  className="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white"
+                  style={{ ...inputStyle, background: 'rgba(255,255,255,0.04)' }}
                 >
                   {CATEGORIES.map((c) => (
-                    <option key={c} value={c}>
+                    <option key={c} value={c} style={{ background: '#0d1424', color: 'var(--text-pure)' }}>
                       {c}
                     </option>
                   ))}
@@ -244,7 +267,7 @@ export default function CourseForm({ mode, course }: Props) {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+                <label className="block text-sm font-semibold mb-1.5" style={{ color: 'var(--text-dim)' }}>
                   <DollarSign className="w-4 h-4 inline ml-1" />
                   السعر (ج.م)
                 </label>
@@ -254,7 +277,7 @@ export default function CourseForm({ mode, course }: Props) {
                   onChange={(e) => setPrice(Number(e.target.value))}
                   disabled={isFree}
                   min={0}
-                  className="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none disabled:bg-slate-100 disabled:text-slate-500"
+                  style={{ ...inputStyle, opacity: isFree ? 0.5 : 1 }}
                 />
               </div>
             </div>
@@ -267,26 +290,37 @@ export default function CourseForm({ mode, course }: Props) {
                   setIsFree(e.target.checked);
                   if (e.target.checked) setPrice(0);
                 }}
-                className="w-4 h-4 text-green-600 rounded border-slate-300 focus:ring-green-500"
+                className="w-4 h-4 rounded"
+                style={{ accentColor: 'var(--neon-green)' }}
               />
-              <span className="text-sm font-medium text-slate-700">هذا الكورس مجاني</span>
+              <span className="text-sm font-medium" style={{ color: 'var(--text-dim)' }}>هذا الكورس مجاني</span>
             </label>
           </div>
 
-          {/* Image Upload */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-            <h2 className="font-bold text-slate-900 flex items-center gap-2 mb-4">
-              <ImageIcon className="w-5 h-5 text-blue-600" />
+          <div
+            className="p-6"
+            style={{
+              background: 'var(--card-glass)',
+              border: '1px solid var(--border-plasma)',
+              borderRadius: '20px',
+              backdropFilter: 'blur(16px)',
+            }}
+          >
+            <h2 className="font-bold flex items-center gap-2 mb-4" style={{ color: 'var(--text-pure)' }}>
+              <ImageIcon className="w-5 h-5" style={{ color: 'var(--neon-blue)' }} />
               صورة الغلاف
             </h2>
 
             <div className="space-y-4">
-              {/* Upload button */}
               <div
                 onClick={() => fileInputRef.current?.click()}
-                className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition hover:border-blue-400 hover:bg-blue-50/50 ${
-                  uploading ? 'border-blue-400 bg-blue-50/50' : 'border-slate-300'
-                }`}
+                className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all duration-300"
+                style={{
+                  borderColor: uploading ? 'var(--neon-blue)' : 'var(--border-plasma)',
+                  background: uploading ? 'rgba(0,210,255,0.05)' : 'transparent',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--neon-blue)'; e.currentTarget.style.background = 'rgba(0,210,255,0.05)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = uploading ? 'var(--neon-blue)' : 'var(--border-plasma)'; e.currentTarget.style.background = uploading ? 'rgba(0,210,255,0.05)' : 'transparent'; }}
               >
                 <input
                   ref={fileInputRef}
@@ -297,47 +331,49 @@ export default function CourseForm({ mode, course }: Props) {
                 />
                 {uploading ? (
                   <div className="flex flex-col items-center gap-2">
-                    <div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full" />
-                    <span className="text-sm text-blue-600 font-medium">جاري رفع الصورة...</span>
+                    <div className="animate-spin w-8 h-8 border-4 rounded-full" style={{ borderColor: 'var(--neon-blue)', borderTopColor: 'transparent' }} />
+                    <span className="text-sm font-medium" style={{ color: 'var(--neon-blue)' }}>جاري رفع الصورة...</span>
                   </div>
                 ) : (
                   <div className="flex flex-col items-center gap-2">
-                    <Upload className="w-8 h-8 text-slate-400" />
-                    <span className="text-sm text-slate-600 font-medium">
+                    <Upload className="w-8 h-8" style={{ color: 'var(--text-dim)' }} />
+                    <span className="text-sm font-medium" style={{ color: 'var(--text-dim)' }}>
                       اضغط لاختيار صورة من جهازك
                     </span>
-                    <span className="text-xs text-slate-400">
+                    <span className="text-xs" style={{ color: 'var(--text-dim)', opacity: 0.6 }}>
                       JPEG, PNG, WebP, GIF - حد أقصى 5 ميجابايت
                     </span>
                   </div>
                 )}
               </div>
 
-              {/* URL input */}
               <div>
-                <label className="block text-xs font-semibold text-slate-500 mb-1.5">
+                <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--text-dim)' }}>
                   أو أدخل رابط الصورة
                 </label>
                 <input
                   type="url"
                   value={image}
                   onChange={(e) => setImage(e.target.value)}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
+                  style={{ ...inputStyle, fontSize: '0.875rem' }}
                   placeholder="https://..."
                 />
               </div>
 
-              {/* Preview */}
               {image && (
                 <div className="relative">
                   <div
-                    className="h-40 rounded-xl bg-cover bg-center border border-slate-200"
-                    style={{ backgroundImage: `url(${image})` }}
+                    className="h-40 rounded-xl bg-cover bg-center"
+                    style={{
+                      backgroundImage: `url(${image})`,
+                      border: '1px solid var(--border-plasma)',
+                    }}
                   />
                   <button
                     type="button"
                     onClick={() => setImage('')}
-                    className="absolute top-2 left-2 p-1.5 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                    className="absolute top-2 left-2 p-1.5 rounded-lg transition-all duration-300"
+                    style={{ background: '#ff5050', color: '#fff' }}
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -346,17 +382,25 @@ export default function CourseForm({ mode, course }: Props) {
             </div>
           </div>
 
-          {/* Lessons */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+          <div
+            className="p-6"
+            style={{
+              background: 'var(--card-glass)',
+              border: '1px solid var(--border-plasma)',
+              borderRadius: '20px',
+              backdropFilter: 'blur(16px)',
+            }}
+          >
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-bold text-slate-900 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-blue-600" />
+              <h2 className="font-bold flex items-center gap-2" style={{ color: 'var(--text-pure)' }}>
+                <FileText className="w-5 h-5" style={{ color: 'var(--neon-blue)' }} />
                 الدروس ({lessons.length})
               </h2>
               <button
                 type="button"
                 onClick={addLesson}
-                className="text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1"
+                className="text-sm text-white px-3 py-1.5 rounded-lg font-bold transition-all duration-300 flex items-center gap-1 hover:shadow-[0_0_20px_rgba(0,210,255,0.3)]"
+                style={{ background: 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))' }}
               >
                 <Plus className="w-4 h-4" />
                 إضافة درس
@@ -365,13 +409,23 @@ export default function CourseForm({ mode, course }: Props) {
 
             <div className="space-y-3">
               {lessons.map((l, idx) => (
-                <div key={l.id} className="border border-slate-200 rounded-xl p-4 bg-slate-50/50">
+                <div
+                  key={l.id}
+                  className="rounded-xl p-4"
+                  style={{
+                    background: 'rgba(255,255,255,0.02)',
+                    border: '1px solid var(--border-plasma)',
+                  }}
+                >
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm font-bold text-slate-700">الدرس {idx + 1}</span>
+                    <span className="text-sm font-bold" style={{ color: 'var(--text-dim)' }}>الدرس {idx + 1}</span>
                     <button
                       type="button"
                       onClick={() => removeLesson(l.id)}
-                      className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition"
+                      className="p-1.5 rounded-lg transition-all duration-300"
+                      style={{ color: '#ff5050' }}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,80,80,0.1)')}
+                      onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -383,7 +437,7 @@ export default function CourseForm({ mode, course }: Props) {
                         value={l.title}
                         onChange={(e) => updateLesson(l.id, 'title', e.target.value)}
                         placeholder="عنوان الدرس"
-                        className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                        style={{ ...inputStyle, fontSize: '0.875rem' }}
                         required
                       />
                     </div>
@@ -393,18 +447,18 @@ export default function CourseForm({ mode, course }: Props) {
                         value={l.description}
                         onChange={(e) => updateLesson(l.id, 'description', e.target.value)}
                         placeholder="وصف الدرس"
-                        className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                        style={{ ...inputStyle, fontSize: '0.875rem' }}
                       />
                     </div>
                     <div>
                       <div className="relative">
-                        <Clock className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                        <Clock className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--text-dim)' }} />
                         <input
                           type="number"
                           value={l.duration}
                           onChange={(e) => updateLesson(l.id, 'duration', Number(e.target.value))}
                           placeholder="المدة بالدقائق"
-                          className="w-full pr-8 pl-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                          style={{ ...inputStyle, fontSize: '0.875rem', paddingRight: '2rem' }}
                           min={1}
                         />
                       </div>
@@ -415,9 +469,10 @@ export default function CourseForm({ mode, course }: Props) {
                           type="checkbox"
                           checked={l.isFree}
                           onChange={(e) => updateLesson(l.id, 'isFree', e.target.checked)}
-                          className="w-4 h-4 text-green-600 rounded border-slate-300"
+                          className="w-4 h-4 rounded"
+                          style={{ accentColor: 'var(--neon-green)' }}
                         />
-                        <span className="text-sm font-medium text-slate-700">درس مجاني (معاينة)</span>
+                        <span className="text-sm font-medium" style={{ color: 'var(--text-dim)' }}>درس مجاني (معاينة)</span>
                       </label>
                     </div>
                   </div>
@@ -425,7 +480,10 @@ export default function CourseForm({ mode, course }: Props) {
               ))}
 
               {lessons.length === 0 && (
-                <div className="text-center py-8 text-slate-500 text-sm border-2 border-dashed border-slate-200 rounded-xl">
+                <div
+                  className="text-center py-8 text-sm border-2 border-dashed rounded-xl"
+                  style={{ color: 'var(--text-dim)', borderColor: 'var(--border-plasma)' }}
+                >
                   لم تتم إضافة دروس بعد. اضغط &quot;إضافة درس&quot; للبدء.
                 </div>
               )}
@@ -433,18 +491,26 @@ export default function CourseForm({ mode, course }: Props) {
           </div>
         </div>
 
-        {/* Sidebar */}
         <div className="space-y-4">
-          <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm sticky top-4">
-            <h3 className="font-bold text-slate-900 mb-4">حفظ الكورس</h3>
-            <p className="text-sm text-slate-600 mb-4">
+          <div
+            className="p-5 sticky top-4"
+            style={{
+              background: 'var(--card-glass)',
+              border: '1px solid var(--border-plasma)',
+              borderRadius: '20px',
+              backdropFilter: 'blur(16px)',
+            }}
+          >
+            <h3 className="font-bold mb-4" style={{ color: 'var(--text-pure)' }}>حفظ الكورس</h3>
+            <p className="text-sm mb-4" style={{ color: 'var(--text-dim)' }}>
               راجع البيانات جيداً قبل الحفظ. يمكنك تعديل الكورس لاحقاً.
             </p>
             <div className="space-y-2">
               <button
                 type="submit"
                 disabled={saving || uploading}
-                className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold rounded-xl transition flex items-center justify-center gap-2"
+                className="w-full py-2.5 text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(0,210,255,0.3)] disabled:opacity-50"
+                style={{ background: 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))' }}
               >
                 {saving ? (
                   <>جاري الحفظ...</>
@@ -457,7 +523,12 @@ export default function CourseForm({ mode, course }: Props) {
               </button>
               <Link
                 href="/admin/courses"
-                className="w-full block text-center py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition"
+                className="w-full block text-center py-2.5 font-bold rounded-xl transition-all duration-300"
+                style={{
+                  background: 'rgba(255,255,255,0.04)',
+                  border: '1px solid var(--border-plasma)',
+                  color: 'var(--text-dim)',
+                }}
               >
                 إلغاء
               </Link>

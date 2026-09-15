@@ -35,46 +35,65 @@ export default function AdminCoursesClient({ courses }: Props) {
     <div className="space-y-6 animate-fadeIn">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900">إدارة الكورسات</h1>
-          <p className="text-slate-500 mt-1">إدارة جميع الكورسات على المنصة ({courses.length})</p>
+          <h1 className="text-2xl md:text-3xl font-extrabold" style={{ color: 'var(--text-pure)' }}>إدارة الكورسات</h1>
+          <p className="mt-1" style={{ color: 'var(--text-dim)' }}>إدارة جميع الكورسات على المنصة ({courses.length})</p>
         </div>
         <Link
           href="/admin/courses/new"
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl font-bold transition flex items-center gap-2"
+          className="text-white px-4 py-2.5 rounded-xl font-bold transition-all duration-300 flex items-center gap-2 hover:shadow-[0_0_20px_rgba(0,210,255,0.3)]"
+          style={{ background: 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))' }}
         >
           <Plus className="w-4 h-4" />
           إضافة كورس جديد
         </Link>
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <div
+        style={{
+          background: 'var(--card-glass)',
+          border: '1px solid var(--border-plasma)',
+          borderRadius: '20px',
+          backdropFilter: 'blur(16px)',
+        }}
+        className="overflow-hidden"
+      >
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="text-right text-xs text-slate-500 bg-slate-50 border-b border-slate-200">
-                <th className="p-4 font-semibold">الكورس</th>
-                <th className="p-4 font-semibold">التصنيف</th>
-                <th className="p-4 font-semibold">الدروس</th>
-                <th className="p-4 font-semibold">الطلاب</th>
-                <th className="p-4 font-semibold">السعر</th>
-                <th className="p-4 font-semibold">الإجراءات</th>
+              <tr className="text-right text-xs" style={{ background: 'rgba(0,210,255,0.08)' }}>
+                <th className="p-4 font-semibold" style={{ color: 'var(--neon-blue)' }}>الكورس</th>
+                <th className="p-4 font-semibold" style={{ color: 'var(--neon-blue)' }}>التصنيف</th>
+                <th className="p-4 font-semibold" style={{ color: 'var(--neon-blue)' }}>الدروس</th>
+                <th className="p-4 font-semibold" style={{ color: 'var(--neon-blue)' }}>الطلاب</th>
+                <th className="p-4 font-semibold" style={{ color: 'var(--neon-blue)' }}>السعر</th>
+                <th className="p-4 font-semibold" style={{ color: 'var(--neon-blue)' }}>الإجراءات</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
-              {courses.map((c) => (
-                <tr key={c.id} className="hover:bg-slate-50 transition">
+            <tbody>
+              {courses.map((c, i) => (
+                <tr
+                  key={c.id}
+                  className="transition-all duration-300 hover:shadow-[inset_0_0_20px_rgba(0,210,255,0.05)]"
+                  style={{
+                    background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.02)',
+                    borderTop: '1px solid var(--border-plasma)',
+                  }}
+                >
                   <td className="p-4">
                     <div className="flex items-center gap-3">
                       <div
                         className="w-12 h-12 rounded-lg bg-cover bg-center flex-shrink-0"
                         style={{
-                          backgroundImage: `linear-gradient(135deg, rgba(37,99,235,0.5), rgba(30,64,175,0.6)), url(${c.image})`,
+                          backgroundImage: `linear-gradient(135deg, rgba(0,210,255,0.3), rgba(157,78,221,0.4)), url(${c.image})`,
                         }}
                       />
                       <div className="min-w-0">
-                        <div className="font-bold text-slate-900 text-sm line-clamp-1">{c.title}</div>
+                        <div className="font-bold text-sm line-clamp-1" style={{ color: 'var(--text-pure)' }}>{c.title}</div>
                         {c.isFree && (
-                          <span className="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold">
+                          <span
+                            className="text-[10px] px-2 py-0.5 rounded-full font-bold"
+                            style={{ background: 'rgba(0,245,212,0.15)', color: 'var(--neon-green)' }}
+                          >
                             مجاني
                           </span>
                         )}
@@ -82,17 +101,20 @@ export default function AdminCoursesClient({ courses }: Props) {
                     </div>
                   </td>
                   <td className="p-4">
-                    <span className="inline-block bg-blue-50 text-blue-700 text-xs font-bold px-2.5 py-1 rounded-full">
+                    <span
+                      className="inline-block text-xs font-bold px-2.5 py-1 rounded-full"
+                      style={{ background: 'rgba(0,210,255,0.15)', color: 'var(--neon-blue)' }}
+                    >
                       {c.category}
                     </span>
                   </td>
-                  <td className="p-4 text-sm text-slate-700 font-medium">{c.lessons.length}</td>
-                  <td className="p-4 text-sm text-slate-700 font-medium">
+                  <td className="p-4 text-sm font-medium" style={{ color: 'var(--text-dim)' }}>{c.lessons.length}</td>
+                  <td className="p-4 text-sm font-medium" style={{ color: 'var(--text-dim)' }}>
                     {c.studentsCount.toLocaleString('ar-EG')}
                   </td>
-                  <td className="p-4 text-sm font-bold text-slate-900">
+                  <td className="p-4 text-sm font-bold" style={{ color: 'var(--text-pure)' }}>
                     {c.isFree ? (
-                      <span className="text-green-600">مجاني</span>
+                      <span style={{ color: 'var(--neon-green)' }}>مجاني</span>
                     ) : (
                       `${c.price} ج.م`
                     )}
@@ -101,14 +123,20 @@ export default function AdminCoursesClient({ courses }: Props) {
                     <div className="flex items-center gap-1">
                       <Link
                         href={`/student/courses/${c.id}`}
-                        className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition"
+                        className="p-2 rounded-lg transition-all duration-300"
+                        style={{ color: 'var(--text-dim)' }}
+                        onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--neon-blue)'; e.currentTarget.style.background = 'rgba(0,210,255,0.1)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-dim)'; e.currentTarget.style.background = 'transparent'; }}
                         title="عرض"
                       >
                         <Eye className="w-4 h-4" />
                       </Link>
                       <Link
                         href={`/admin/courses/${c.id}/edit`}
-                        className="p-2 text-slate-500 hover:text-yellow-600 hover:bg-yellow-50 rounded-lg transition"
+                        className="p-2 rounded-lg transition-all duration-300"
+                        style={{ color: 'var(--text-dim)' }}
+                        onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--atom-gold)'; e.currentTarget.style.background = 'rgba(255,190,11,0.1)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-dim)'; e.currentTarget.style.background = 'transparent'; }}
                         title="تعديل"
                       >
                         <Edit3 className="w-4 h-4" />
@@ -116,7 +144,10 @@ export default function AdminCoursesClient({ courses }: Props) {
                       <button
                         onClick={() => handleDelete(c.id)}
                         disabled={deleting === c.id}
-                        className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition disabled:opacity-50"
+                        className="p-2 rounded-lg transition-all duration-300 disabled:opacity-50"
+                        style={{ color: 'var(--text-dim)' }}
+                        onMouseEnter={(e) => { e.currentTarget.style.color = '#ff5050'; e.currentTarget.style.background = 'rgba(255,80,80,0.1)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-dim)'; e.currentTarget.style.background = 'transparent'; }}
                         title="حذف"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -127,8 +158,8 @@ export default function AdminCoursesClient({ courses }: Props) {
               ))}
               {courses.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="p-12 text-center text-slate-500">
-                    <BookOpen className="w-12 h-12 text-slate-300 mx-auto mb-2" />
+                  <td colSpan={6} className="p-12 text-center" style={{ color: 'var(--text-dim)' }}>
+                    <BookOpen className="w-12 h-12 mx-auto mb-2" style={{ color: 'rgba(148,163,184,0.3)' }} />
                     <p>لا توجد كورسات بعد.</p>
                   </td>
                 </tr>

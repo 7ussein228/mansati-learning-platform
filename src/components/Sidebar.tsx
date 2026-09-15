@@ -43,26 +43,68 @@ export default function Sidebar({ role, name }: SidebarProps) {
   const links = role === 'student' ? studentLinks : adminLinks;
 
   return (
-    <aside className="hidden lg:flex lg:flex-col w-64 bg-white border-l border-slate-200 min-h-screen fixed right-0 top-0">
-      <div className="p-6 border-b border-slate-200">
-        <Link href={role === 'student' ? '/student' : '/admin'} className="flex items-center gap-2">
-          <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-            <GraduationCap className="w-6 h-6 text-white" />
+    <aside
+      className="hidden lg:flex lg:flex-col w-64 min-h-screen fixed right-0 top-0"
+      style={{
+        background: 'var(--card-glass)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
+        borderLeft: '1px solid var(--border-plasma)',
+      }}
+    >
+      <div
+        className="p-6"
+        style={{ borderBottom: '1px solid var(--border-plasma)' }}
+      >
+        <Link
+          href={role === 'student' ? '/student' : '/admin'}
+          className="flex items-center gap-2"
+        >
+          <div
+            className="w-10 h-10 rounded-lg flex items-center justify-center"
+            style={{
+              background: 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))',
+            }}
+          >
+            <GraduationCap className="w-6 h-6" style={{ color: 'var(--text-pure)' }} />
           </div>
-          <span className="text-2xl font-bold text-blue-600">Tesla</span>
+          <span
+            className="text-2xl font-bold"
+            style={{
+              background: 'linear-gradient(90deg, var(--neon-blue), var(--neon-purple))',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            Tesla
+          </span>
         </Link>
       </div>
 
-      <div className="p-4 border-b border-slate-200">
+      <div
+        className="p-4"
+        style={{ borderBottom: '1px solid var(--border-plasma)' }}
+      >
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-            <span className="text-blue-600 font-bold">
+          <div
+            className="w-10 h-10 rounded-full flex items-center justify-center"
+            style={{
+              background: 'rgba(0, 210, 255, 0.15)',
+              border: '1px solid var(--border-plasma)',
+            }}
+          >
+            <span
+              className="font-bold"
+              style={{ color: 'var(--neon-blue)' }}
+            >
               {name.charAt(0)}
             </span>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="font-semibold text-slate-800 truncate">{name}</p>
-            <p className="text-xs text-slate-500">
+            <p className="font-semibold truncate" style={{ color: 'var(--text-pure)' }}>
+              {name}
+            </p>
+            <p className="text-xs" style={{ color: 'var(--text-dim)' }}>
               {role === 'admin' ? 'مدرس / Admin' : 'طالب'}
             </p>
           </div>
@@ -77,27 +119,65 @@ export default function Sidebar({ role, name }: SidebarProps) {
             <Link
               key={link.href}
               href={link.href}
-              className={`flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg transition group ${
-                isActive
-                  ? 'bg-blue-600 text-white shadow-sm'
-                  : 'text-slate-700 hover:bg-blue-50 hover:text-blue-600'
-              }`}
+              className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg transition-all duration-300 group"
+              style={{
+                background: isActive ? 'rgba(0, 210, 255, 0.12)' : 'rgba(13, 20, 36, 0.4)',
+                borderRight: isActive ? '3px solid var(--neon-blue)' : '3px solid transparent',
+                color: isActive ? 'var(--neon-blue)' : 'var(--text-dim)',
+                boxShadow: isActive ? '0 0 12px rgba(0, 210, 255, 0.2)' : 'none',
+              }}
+              onMouseEnter={(e) => {
+                if (!isActive) {
+                  e.currentTarget.style.background = 'rgba(0, 210, 255, 0.06)';
+                  e.currentTarget.style.color = 'var(--text-pure)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isActive) {
+                  e.currentTarget.style.background = 'rgba(13, 20, 36, 0.4)';
+                  e.currentTarget.style.color = 'var(--text-dim)';
+                }
+              }}
             >
               <div className="flex items-center gap-3">
-                <Icon className="w-5 h-5" />
+                <Icon
+                  className="w-5 h-5 transition-colors duration-300"
+                  style={{ color: isActive ? 'var(--neon-blue)' : 'var(--text-dim)' }}
+                />
                 <span className="font-medium">{link.label}</span>
               </div>
-              <ChevronRight className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-blue-600'} rtl:rotate-180`} />
+              <ChevronRight
+                className="w-4 h-4 rtl:rotate-180 transition-colors duration-300"
+                style={{
+                  color: isActive ? 'var(--neon-blue)' : 'var(--text-dim)',
+                }}
+              />
             </Link>
           );
         })}
       </nav>
 
-      <div className="p-4 border-t border-slate-200">
+      <div
+        className="p-4"
+        style={{ borderTop: '1px solid var(--border-plasma)' }}
+      >
         <form action="/api/auth/logout" method="POST">
           <button
             type="submit"
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-600 hover:bg-red-50 transition font-medium"
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-300 font-medium"
+            style={{
+              background: 'rgba(255, 0, 0, 0.06)',
+              color: '#ff4444',
+              border: '1px solid rgba(255, 68, 68, 0.2)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(255, 0, 0, 0.12)';
+              e.currentTarget.style.boxShadow = '0 0 16px rgba(255, 68, 68, 0.25)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(255, 0, 0, 0.06)';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
           >
             <LogOut className="w-5 h-5" />
             تسجيل الخروج

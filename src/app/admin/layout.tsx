@@ -15,7 +15,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen" style={{ background: 'var(--bg-space)' }}>
       <Sidebar role="admin" name={user.name} />
       <MobileTopBar role="admin" name={user.name} />
       <main className="lg:mr-64">

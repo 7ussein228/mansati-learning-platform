@@ -84,12 +84,19 @@ export default function GroupsClient({ groups, initialMessages, courses, current
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col lg:flex-row h-[calc(100vh-200px)] lg:h-[calc(100vh-220px)]">
-      {/* Groups sidebar */}
-      <div className="lg:w-72 border-b lg:border-b-0 lg:border-l border-slate-200 flex flex-col">
-        <div className="p-4 border-b border-slate-200">
-          <h2 className="font-bold text-slate-900 flex items-center gap-2">
-            <UsersIcon className="w-5 h-5 text-blue-600" />
+    <div
+      className="overflow-hidden flex flex-col lg:flex-row h-[calc(100vh-200px)] lg:h-[calc(100vh-220px)]"
+      style={{
+        background: 'var(--card-glass)',
+        border: '1px solid var(--border-plasma)',
+        borderRadius: '20px',
+        backdropFilter: 'blur(16px)',
+      }}
+    >
+      <div className="lg:w-72 flex flex-col" style={{ borderBottom: '1px solid var(--border-plasma)' }}>
+        <div className="p-4" style={{ borderBottom: '1px solid var(--border-plasma)' }}>
+          <h2 className="font-bold flex items-center gap-2" style={{ color: 'var(--text-pure)' }}>
+            <UsersIcon className="w-5 h-5" style={{ color: 'var(--neon-blue)' }} />
             الجروبات
           </h2>
         </div>
@@ -101,16 +108,18 @@ export default function GroupsClient({ groups, initialMessages, courses, current
               <button
                 key={g.id}
                 onClick={() => setActiveGroup(g)}
-                className={`w-full text-right p-3 rounded-xl transition ${
-                  isActive ? 'bg-blue-600 text-white' : 'hover:bg-slate-100 text-slate-700'
-                }`}
+                className="w-full text-right p-3 rounded-xl transition"
+                style={{
+                  background: isActive ? 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))' : 'transparent',
+                  color: isActive ? 'white' : 'var(--text-dim)',
+                }}
               >
                 <div className="flex items-center gap-2 mb-1">
-                  <MessageSquare className={`w-4 h-4 ${isActive ? 'text-white' : 'text-blue-600'}`} />
+                  <MessageSquare className="w-4 h-4" style={{ color: isActive ? 'white' : 'var(--neon-blue)' }} />
                   <span className="font-bold text-sm line-clamp-1">{g.name}</span>
                 </div>
                 {course && (
-                  <div className={`text-xs ${isActive ? 'text-blue-100' : 'text-slate-500'} line-clamp-1 mr-6`}>
+                  <div className="text-xs line-clamp-1 mr-6" style={{ color: isActive ? 'rgba(255,255,255,0.7)' : 'var(--text-dim)' }}>
                     {course.title}
                   </div>
                 )}
@@ -120,38 +129,41 @@ export default function GroupsClient({ groups, initialMessages, courses, current
         </div>
       </div>
 
-      {/* Chat area */}
       <div className="flex-1 flex flex-col min-h-0">
         {activeGroup ? (
           <>
-            <div className="p-4 border-b border-slate-200 bg-slate-50">
-              <h3 className="font-bold text-slate-900">{activeGroup.name}</h3>
-              <p className="text-xs text-slate-500">{groupMessages.length} رسالة</p>
+            <div className="p-4" style={{ borderBottom: '1px solid var(--border-plasma)', background: 'rgba(255,255,255,0.03)' }}>
+              <h3 className="font-bold" style={{ color: 'var(--text-pure)' }}>{activeGroup.name}</h3>
+              <p className="text-xs" style={{ color: 'var(--text-dim)' }}>{groupMessages.length} رسالة</p>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50/50">
+            <div className="flex-1 overflow-y-auto p-4 space-y-3" style={{ background: 'rgba(255,255,255,0.02)' }}>
               {groupMessages.map((m) => {
                 const isMe = m.senderId === currentUserId || (currentUserId === '' && m.senderName === currentUserName);
                 const isTeacher = m.senderId === 'system';
                 return (
                   <div key={m.id} className={`flex ${isMe ? 'justify-start' : 'justify-end'}`}>
                     <div className={`max-w-[75%] ${isMe ? 'items-start' : 'items-end'} flex flex-col`}>
-                      <div className={`text-xs mb-1 ${isMe ? 'text-blue-600 font-bold' : 'text-slate-600'}`}>
+                      <div className="text-xs mb-1 font-bold" style={{ color: isMe ? 'var(--neon-blue)' : 'var(--text-dim)' }}>
                         {m.senderName}
                         {isTeacher && ' (مدرس)'}
                       </div>
                       <div
-                        className={`px-4 py-2.5 rounded-2xl ${
-                          isMe
-                            ? 'bg-blue-600 text-white rounded-bl-md'
+                        className="px-4 py-2.5 rounded-2xl"
+                        style={{
+                          background: isMe
+                            ? 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))'
                             : isTeacher
-                            ? 'bg-yellow-100 text-slate-900 rounded-br-md border border-yellow-200'
-                            : 'bg-white border border-slate-200 text-slate-900 rounded-br-md'
-                        }`}
+                            ? 'rgba(255,190,11,0.15)'
+                            : 'rgba(255,255,255,0.06)',
+                          color: 'var(--text-pure)',
+                          border: isTeacher ? '1px solid rgba(255,190,11,0.3)' : isMe ? 'none' : '1px solid var(--border-plasma)',
+                          borderRadius: isMe ? '20px 20px 4px 20px' : '20px 20px 20px 4px',
+                        }}
                       >
                         <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">{m.text}</p>
                       </div>
-                      <div className="text-[10px] text-slate-400 mt-1">{formatTime(m.timestamp)}</div>
+                      <div className="text-[10px] mt-1" style={{ color: 'var(--text-dim)' }}>{formatTime(m.timestamp)}</div>
                     </div>
                   </div>
                 );
@@ -159,24 +171,30 @@ export default function GroupsClient({ groups, initialMessages, courses, current
               <div ref={messagesEndRef} />
             </div>
 
-            <form onSubmit={handleSend} className="p-4 border-t border-slate-200 flex gap-2">
+            <form onSubmit={handleSend} className="p-4 flex gap-2" style={{ borderTop: '1px solid var(--border-plasma)' }}>
               <input
                 type="text"
                 value={newMsg}
                 onChange={(e) => setNewMsg(e.target.value)}
                 placeholder="اكتب رسالتك..."
-                className="flex-1 px-4 py-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                className="input-space flex-1 px-4 py-2.5 rounded-xl outline-none"
+                style={{
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid var(--border-plasma)',
+                  color: 'var(--text-pure)',
+                }}
               />
               <button
                 type="submit"
-                className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition flex items-center gap-2"
+                className="px-5 py-2.5 rounded-xl font-bold transition flex items-center gap-2"
+                style={{ background: 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))', color: 'white' }}
               >
                 <Send className="w-4 h-4" />
               </button>
             </form>
           </>
         ) : (
-          <div className="flex-1 flex items-center justify-center text-slate-500">
+          <div className="flex-1 flex items-center justify-center" style={{ color: 'var(--text-dim)' }}>
             اختر مجموعة لبدء النقاش
           </div>
         )}

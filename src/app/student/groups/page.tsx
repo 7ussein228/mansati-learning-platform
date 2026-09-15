@@ -14,8 +14,8 @@ export default async function StudentGroups() {
   return (
     <div className="animate-fadeIn">
       <div className="mb-6">
-        <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900">جروبات النقاش</h1>
-        <p className="text-slate-500 mt-1">تواصل مع زملائك واطرح أسئلتك</p>
+        <h1 className="text-2xl md:text-3xl font-extrabold" style={{ color: 'var(--text-pure)' }}>جروبات النقاش</h1>
+        <p className="mt-1" style={{ color: 'var(--text-dim)' }}>تواصل مع زملائك واطرح أسئلتك</p>
       </div>
       <GroupsClient
         groups={groups}

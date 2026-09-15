@@ -88,21 +88,39 @@ export default function QuizTaker({ quiz, courseName }: Props) {
       <div className="max-w-3xl mx-auto animate-fadeIn">
         <Link
           href="/student/quizzes"
-          className="inline-flex items-center gap-2 text-slate-600 hover:text-blue-600 text-sm mb-6"
+          className="inline-flex items-center gap-2 text-sm mb-6"
+          style={{ color: 'var(--neon-blue)' }}
         >
           <ChevronRight className="w-4 h-4" />
           العودة للاختبارات
         </Link>
 
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div className="bg-gradient-to-l from-blue-600 to-indigo-700 p-8 text-white text-center">
-            <div className="w-16 h-16 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <FileQuestion className="w-8 h-8" />
+        <div
+          className="overflow-hidden"
+          style={{
+            background: 'var(--card-glass)',
+            border: '1px solid var(--border-plasma)',
+            borderRadius: '20px',
+            backdropFilter: 'blur(16px)',
+          }}
+        >
+          <div
+            className="p-8 text-center"
+            style={{ background: 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))' }}
+          >
+            <div
+              className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
+              style={{ background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)' }}
+            >
+              <FileQuestion className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-2xl md:text-3xl font-extrabold mb-2">{quiz.title}</h1>
-            <p className="text-blue-100">{quiz.description}</p>
+            <h1 className="text-2xl md:text-3xl font-extrabold mb-2 text-white">{quiz.title}</h1>
+            <p style={{ color: 'rgba(255,255,255,0.7)' }}>{quiz.description}</p>
             {courseName && (
-              <span className="inline-block mt-3 bg-white/20 backdrop-blur px-3 py-1 rounded-full text-xs">
+              <span
+                className="inline-block mt-3 px-3 py-1 rounded-full text-xs"
+                style={{ background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', color: 'white' }}
+              >
                 {courseName}
               </span>
             )}
@@ -110,31 +128,33 @@ export default function QuizTaker({ quiz, courseName }: Props) {
 
           <div className="p-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-              <div className="bg-slate-50 rounded-xl p-4 text-center">
-                <Clock className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-                <div className="font-extrabold text-slate-900">{quiz.duration}</div>
-                <div className="text-xs text-slate-500">دقيقة</div>
-              </div>
-              <div className="bg-slate-50 rounded-xl p-4 text-center">
-                <FileQuestion className="w-6 h-6 text-yellow-600 mx-auto mb-2" />
-                <div className="font-extrabold text-slate-900">{quiz.questions.length}</div>
-                <div className="text-xs text-slate-500">سؤال</div>
-              </div>
-              <div className="bg-slate-50 rounded-xl p-4 text-center">
-                <Award className="w-6 h-6 text-green-600 mx-auto mb-2" />
-                <div className="font-extrabold text-slate-900">{totalPoints}</div>
-                <div className="text-xs text-slate-500">مجموع النقاط</div>
-              </div>
-              <div className="bg-slate-50 rounded-xl p-4 text-center">
-                <Target className="w-6 h-6 text-purple-600 mx-auto mb-2" />
-                <div className="font-extrabold text-slate-900">{quiz.passingScore}%</div>
-                <div className="text-xs text-slate-500">نسبة النجاح</div>
-              </div>
+              {[
+                { icon: Clock, value: quiz.duration, label: 'دقيقة', color: 'var(--neon-blue)' },
+                { icon: FileQuestion, value: quiz.questions.length, label: 'سؤال', color: 'var(--atom-gold)' },
+                { icon: Award, value: totalPoints, label: 'مجموع النقاط', color: 'var(--neon-green)' },
+                { icon: Target, value: `${quiz.passingScore}%`, label: 'نسبة النجاح', color: 'var(--neon-purple)' },
+              ].map((item, i) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    key={i}
+                    className="rounded-xl p-4 text-center"
+                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border-plasma)' }}
+                  >
+                    <Icon className="w-6 h-6 mx-auto mb-2" style={{ color: item.color }} />
+                    <div className="font-extrabold" style={{ color: 'var(--text-pure)' }}>{item.value}</div>
+                    <div className="text-xs" style={{ color: 'var(--text-dim)' }}>{item.label}</div>
+                  </div>
+                );
+              })}
             </div>
 
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
-              <h3 className="font-bold text-blue-900 mb-2 text-sm">تعليمات الاختبار:</h3>
-              <ul className="text-sm text-blue-800 space-y-1 list-disc list-inside">
+            <div
+              className="rounded-xl p-4 mb-6"
+              style={{ background: 'rgba(0,210,255,0.08)', border: '1px solid rgba(0,210,255,0.2)' }}
+            >
+              <h3 className="font-bold mb-2 text-sm" style={{ color: 'var(--neon-blue)' }}>تعليمات الاختبار:</h3>
+              <ul className="text-sm space-y-1 list-disc list-inside" style={{ color: 'rgba(0,210,255,0.7)' }}>
                 <li>تأكد من استقرار الاتصال بالإنترنت قبل البدء.</li>
                 <li>لا يمكن إيقاف الاختبار بعد البدء.</li>
                 <li>يمكنك التنقل بين الأسئلة باستخدام الأزرار أسفل الصفحة.</li>
@@ -144,7 +164,8 @@ export default function QuizTaker({ quiz, courseName }: Props) {
 
             <button
               onClick={() => setState('taking')}
-              className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition flex items-center justify-center gap-2 text-lg"
+              className="w-full py-3.5 font-bold rounded-xl transition flex items-center justify-center gap-2 text-lg"
+              style={{ background: 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))', color: 'white' }}
             >
               <PlayCircle className="w-6 h-6" />
               ابدأ الاختبار
@@ -158,82 +179,89 @@ export default function QuizTaker({ quiz, courseName }: Props) {
   if (state === 'result') {
     return (
       <div className="max-w-3xl mx-auto animate-fadeIn">
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div
+          className="overflow-hidden"
+          style={{
+            background: 'var(--card-glass)',
+            border: '1px solid var(--border-plasma)',
+            borderRadius: '20px',
+            backdropFilter: 'blur(16px)',
+          }}
+        >
           <div
-            className={`p-10 text-center ${
-              result.passed
-                ? 'bg-gradient-to-l from-green-500 to-emerald-600'
-                : 'bg-gradient-to-l from-red-500 to-rose-600'
-            } text-white`}
+            className="p-10 text-center"
+            style={{
+              background: result.passed
+                ? 'linear-gradient(135deg, var(--neon-green), #00c9a7)'
+                : 'linear-gradient(135deg, #ff416c, #ff4b2b)',
+            }}
           >
-            <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: 'rgba(255,255,255,0.2)' }}>
               {result.passed ? (
-                <Trophy className="w-10 h-10" />
+                <Trophy className="w-10 h-10 text-white" />
               ) : (
-                <XIcon className="w-10 h-10" />
+                <XIcon className="w-10 h-10 text-white" />
               )}
             </div>
-            <h1 className="text-3xl font-extrabold mb-2">
-              {result.passed ? 'مبروك! نجحت 🎉' : 'للأسف، لم تنجح'}
+            <h1 className="text-3xl font-extrabold mb-2 text-white">
+              {result.passed ? 'مبروك! نجحت' : 'للأسف، لم تنجح'}
             </h1>
-            <p className="text-white/90">
+            <p style={{ color: 'rgba(255,255,255,0.85)' }}>
               {result.passed ? 'لقد أجبت على أغلب الأسئلة بشكل صحيح' : 'يمكنك إعادة المحاولة مرة أخرى'}
             </p>
           </div>
 
           <div className="p-8">
             <div className="grid grid-cols-3 gap-4 mb-8">
-              <div className="bg-blue-50 rounded-xl p-4 text-center">
-                <div className="text-3xl font-extrabold text-blue-600">{result.percentage}%</div>
-                <div className="text-xs text-slate-600 mt-1">النسبة</div>
-              </div>
-              <div className="bg-green-50 rounded-xl p-4 text-center">
-                <div className="text-3xl font-extrabold text-green-600">
-                  {result.score}/{result.total}
+              {[
+                { value: `${result.percentage}%`, label: 'النسبة', color: 'var(--neon-blue)' },
+                { value: `${result.score}/${result.total}`, label: 'النقاط', color: 'var(--neon-green)' },
+                { value: `${result.correctCount}/${quiz.questions.length}`, label: 'إجابات صحيحة', color: 'var(--atom-gold)' },
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="rounded-xl p-4 text-center"
+                  style={{ background: `${item.color}15`, border: `1px solid ${item.color}30` }}
+                >
+                  <div className="text-3xl font-extrabold" style={{ color: item.color }}>{item.value}</div>
+                  <div className="text-xs mt-1" style={{ color: 'var(--text-dim)' }}>{item.label}</div>
                 </div>
-                <div className="text-xs text-slate-600 mt-1">النقاط</div>
-              </div>
-              <div className="bg-yellow-50 rounded-xl p-4 text-center">
-                <div className="text-3xl font-extrabold text-yellow-600">
-                  {result.correctCount}/{quiz.questions.length}
-                </div>
-                <div className="text-xs text-slate-600 mt-1">إجابات صحيحة</div>
-              </div>
+              ))}
             </div>
 
-            {/* Review */}
             <div className="space-y-3 mb-6">
-              <h3 className="font-bold text-slate-900 mb-2">مراجعة الإجابات:</h3>
+              <h3 className="font-bold mb-2" style={{ color: 'var(--text-pure)' }}>مراجعة الإجابات:</h3>
               {quiz.questions.map((q, i) => {
                 const isCorrect = answers[q.id] === q.correctAnswer;
                 return (
                   <div
                     key={q.id}
-                    className={`p-4 rounded-xl border ${
-                      isCorrect ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'
-                    }`}
+                    className="p-4 rounded-xl"
+                    style={{
+                      border: `1px solid ${isCorrect ? 'var(--neon-green)' : '#ff416c'}`,
+                      background: isCorrect ? 'rgba(0,245,212,0.08)' : 'rgba(255,65,108,0.08)',
+                    }}
                   >
                     <div className="flex items-start gap-2 mb-2">
                       <span
-                        className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-white text-xs font-bold ${
-                          isCorrect ? 'bg-green-500' : 'bg-red-500'
-                        }`}
+                        className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-white text-xs font-bold"
+                        style={{ background: isCorrect ? 'var(--neon-green)' : '#ff416c' }}
                       >
                         {i + 1}
                       </span>
-                      <p className="font-medium text-slate-900 text-sm flex-1">{q.text}</p>
+                      <p className="font-medium text-sm flex-1" style={{ color: 'var(--text-pure)' }}>{q.text}</p>
                     </div>
                     <div className="flex items-center gap-2 mr-8 text-xs">
                       {isCorrect ? (
-                        <CheckCircle2 className="w-4 h-4 text-green-600" />
+                        <CheckCircle2 className="w-4 h-4" style={{ color: 'var(--neon-green)' }} />
                       ) : (
-                        <XCircle className="w-4 h-4 text-red-600" />
+                        <XCircle className="w-4 h-4" style={{ color: '#ff416c' }} />
                       )}
-                      <span className="text-slate-700">
-                        إجابتك: <strong>{answers[q.id] || 'لم تُجب'}</strong>
+                      <span style={{ color: 'var(--text-dim)' }}>
+                        إجابتك: <strong style={{ color: 'var(--text-pure)' }}>{answers[q.id] || 'لم تُجب'}</strong>
                       </span>
                       {!isCorrect && (
-                        <span className="text-green-700">
+                        <span style={{ color: 'var(--neon-green)' }}>
                           - الإجابة الصحيحة: <strong>{q.correctAnswer}</strong>
                         </span>
                       )}
@@ -246,14 +274,16 @@ export default function QuizTaker({ quiz, courseName }: Props) {
             <div className="flex gap-3">
               <button
                 onClick={reset}
-                className="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition flex items-center justify-center gap-2"
+                className="flex-1 py-3 font-bold rounded-xl transition flex items-center justify-center gap-2"
+                style={{ background: 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))', color: 'white' }}
               >
                 <RotateCcw className="w-5 h-5" />
                 إعادة الاختبار
               </button>
               <Link
                 href="/student/quizzes"
-                className="flex-1 py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl transition flex items-center justify-center gap-2"
+                className="flex-1 py-3 font-bold rounded-xl transition flex items-center justify-center gap-2"
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border-plasma)', color: 'var(--text-pure)' }}
               >
                 العودة للاختبارات
               </Link>
@@ -264,17 +294,23 @@ export default function QuizTaker({ quiz, courseName }: Props) {
     );
   }
 
-  // Taking state
   const currentAnswer = answers[current.id] || '';
   const answeredCount = Object.keys(answers).length;
 
   return (
     <div className="max-w-3xl mx-auto animate-fadeIn">
-      {/* Top bar */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-4 mb-4 shadow-sm">
+      <div
+        className="p-4 mb-4"
+        style={{
+          background: 'var(--card-glass)',
+          border: '1px solid var(--border-plasma)',
+          borderRadius: '20px',
+          backdropFilter: 'blur(16px)',
+        }}
+      >
         <div className="flex items-center justify-between mb-3">
-          <h1 className="font-bold text-slate-900 line-clamp-1">{quiz.title}</h1>
-          <div className="flex items-center gap-2 text-sm font-bold text-blue-600">
+          <h1 className="font-bold line-clamp-1" style={{ color: 'var(--text-pure)' }}>{quiz.title}</h1>
+          <div className="flex items-center gap-2 text-sm font-bold" style={{ color: 'var(--neon-blue)' }}>
             <Clock className="w-4 h-4" />
             <span>
               {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
@@ -282,28 +318,38 @@ export default function QuizTaker({ quiz, courseName }: Props) {
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
+          <div className="quantum-bar flex-1" style={{ height: '8px', background: 'rgba(255,255,255,0.08)', borderRadius: '9999px', overflow: 'hidden' }}>
             <div
-              className="h-full bg-blue-600 rounded-full transition-all"
-              style={{ width: `${progressPercent}%` }}
+              className="quantum-fill h-full rounded-full transition-all"
+              style={{ width: `${progressPercent}%`, background: 'linear-gradient(90deg, var(--neon-blue), var(--neon-purple))' }}
             />
           </div>
-          <span className="text-sm font-bold text-slate-600">
+          <span className="text-sm font-bold" style={{ color: 'var(--text-dim)' }}>
             {currentIdx + 1}/{quiz.questions.length}
           </span>
         </div>
       </div>
 
-      {/* Question card */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8 mb-4">
+      <div
+        className="p-6 md:p-8 mb-4"
+        style={{
+          background: 'var(--card-glass)',
+          border: '1px solid var(--border-plasma)',
+          borderRadius: '20px',
+          backdropFilter: 'blur(16px)',
+        }}
+      >
         <div className="mb-6">
-          <span className="inline-block bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded-full mb-3">
+          <span
+            className="inline-block text-xs font-bold px-2 py-1 rounded-full mb-3"
+            style={{ background: 'rgba(0,210,255,0.15)', color: 'var(--neon-blue)' }}
+          >
             السؤال {currentIdx + 1}
           </span>
-          <h2 className="text-lg md:text-xl font-bold text-slate-900 leading-relaxed">
+          <h2 className="text-lg md:text-xl font-bold leading-relaxed" style={{ color: 'var(--text-pure)' }}>
             {current.text}
           </h2>
-          <div className="mt-2 text-xs text-slate-500">
+          <div className="mt-2 text-xs" style={{ color: 'var(--text-dim)' }}>
             {current.type === 'multiple' ? 'اختيار من متعدد' : 'صواب أو خطأ'} • {current.points} نقطة
           </div>
         </div>
@@ -315,32 +361,40 @@ export default function QuizTaker({ quiz, courseName }: Props) {
               <button
                 key={i}
                 onClick={() => handleAnswer(opt)}
-                className={`w-full text-right p-4 rounded-xl border-2 transition flex items-center gap-3 ${
-                  selected
-                    ? 'border-blue-600 bg-blue-50'
-                    : 'border-slate-200 hover:border-blue-300 hover:bg-blue-50/50'
-                }`}
+                className="w-full text-right p-4 rounded-xl transition flex items-center gap-3"
+                style={{
+                  border: `2px solid ${selected ? 'var(--neon-blue)' : 'var(--border-plasma)'}`,
+                  background: selected ? 'rgba(0,210,255,0.1)' : 'rgba(255,255,255,0.03)',
+                  boxShadow: selected ? '0 0 20px rgba(0,210,255,0.2)' : 'none',
+                  color: 'var(--text-pure)',
+                }}
               >
                 <div
-                  className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
-                    selected ? 'border-blue-600 bg-blue-600' : 'border-slate-300'
-                  }`}
+                  className="w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0"
+                  style={{
+                    borderColor: selected ? 'var(--neon-blue)' : 'var(--text-dim)',
+                    background: selected ? 'var(--neon-blue)' : 'transparent',
+                  }}
                 >
                   {selected && <CheckCircle2 className="w-4 h-4 text-white" />}
                 </div>
-                <span className="font-medium text-slate-900">{opt}</span>
+                <span className="font-medium">{opt}</span>
               </button>
             );
           })}
         </div>
       </div>
 
-      {/* Nav */}
       <div className="flex items-center justify-between gap-3">
         <button
           disabled={currentIdx === 0}
           onClick={() => setCurrentIdx((i) => i - 1)}
-          className="px-5 py-2.5 bg-white border border-slate-300 rounded-xl font-medium text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 transition flex items-center gap-2"
+          className="px-5 py-2.5 rounded-xl font-medium disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-2"
+          style={{
+            background: 'rgba(255,255,255,0.06)',
+            border: '1px solid var(--border-plasma)',
+            color: 'var(--text-pure)',
+          }}
         >
           <ChevronRight className="w-4 h-4" />
           السابق
@@ -350,7 +404,8 @@ export default function QuizTaker({ quiz, courseName }: Props) {
           <button
             onClick={handleSubmit}
             disabled={answeredCount < quiz.questions.length}
-            className="px-6 py-2.5 bg-green-600 hover:bg-green-700 disabled:bg-slate-300 text-white font-bold rounded-xl transition flex items-center gap-2"
+            className="px-6 py-2.5 font-bold rounded-xl transition flex items-center gap-2 disabled:opacity-40"
+            style={{ background: 'var(--neon-green)', color: 'white' }}
           >
             <CheckCheck className="w-5 h-5" />
             تسليم الاختبار ({answeredCount}/{quiz.questions.length})
@@ -359,7 +414,8 @@ export default function QuizTaker({ quiz, courseName }: Props) {
           <button
             disabled={!currentAnswer}
             onClick={() => setCurrentIdx((i) => i + 1)}
-            className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 text-white font-bold rounded-xl transition flex items-center gap-2"
+            className="px-5 py-2.5 font-bold rounded-xl transition flex items-center gap-2 disabled:opacity-40"
+            style={{ background: 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))', color: 'white' }}
           >
             التالي
             <ChevronLeft className="w-4 h-4" />

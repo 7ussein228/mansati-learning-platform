@@ -15,7 +15,7 @@ export default async function StudentLayout({ children }: { children: React.Reac
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen" style={{ background: 'var(--bg-space)' }}>
       <Sidebar role="student" name={user.name} />
       <MobileTopBar role="student" name={user.name} />
       <main className="lg:mr-64">

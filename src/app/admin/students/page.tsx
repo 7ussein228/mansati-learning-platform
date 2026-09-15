@@ -29,74 +29,112 @@ export default function AdminStudents() {
   return (
     <div className="space-y-6 animate-fadeIn">
       <div>
-        <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900">إدارة الطلاب</h1>
-        <p className="text-slate-500 mt-1">جميع الطلاب المسجلين في المنصة ({filtered.length})</p>
+        <h1 className="text-2xl md:text-3xl font-extrabold" style={{ color: 'var(--text-pure)' }}>إدارة الطلاب</h1>
+        <p className="mt-1" style={{ color: 'var(--text-dim)' }}>جميع الطلاب المسجلين في المنصة ({filtered.length})</p>
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
+      <div
+        className="p-4"
+        style={{
+          background: 'var(--card-glass)',
+          border: '1px solid var(--border-plasma)',
+          borderRadius: '20px',
+          backdropFilter: 'blur(16px)',
+        }}
+      >
         <div className="relative max-w-md">
-          <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+          <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: 'var(--text-dim)' }} />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="ابحث بالاسم أو الإيميل..."
-            className="w-full pr-10 pl-3 py-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+            className="w-full pr-10 pl-3 py-2.5"
+            style={{
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid var(--border-plasma)',
+              borderRadius: '12px',
+              color: 'var(--text-pure)',
+              outline: 'none',
+            }}
           />
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <div
+        style={{
+          background: 'var(--card-glass)',
+          border: '1px solid var(--border-plasma)',
+          borderRadius: '20px',
+          backdropFilter: 'blur(16px)',
+        }}
+        className="overflow-hidden"
+      >
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="text-right text-xs text-slate-500 bg-slate-50 border-b border-slate-200">
-                <th className="p-4 font-semibold">الطالب</th>
-                <th className="p-4 font-semibold">الإيميل</th>
-                <th className="p-4 font-semibold">تاريخ التسجيل</th>
-                <th className="p-4 font-semibold">النقاط</th>
-                <th className="p-4 font-semibold">الحالة</th>
+              <tr className="text-right text-xs" style={{ background: 'rgba(0,210,255,0.08)' }}>
+                <th className="p-4 font-semibold" style={{ color: 'var(--neon-blue)' }}>الطالب</th>
+                <th className="p-4 font-semibold" style={{ color: 'var(--neon-blue)' }}>الإيميل</th>
+                <th className="p-4 font-semibold" style={{ color: 'var(--neon-blue)' }}>تاريخ التسجيل</th>
+                <th className="p-4 font-semibold" style={{ color: 'var(--neon-blue)' }}>النقاط</th>
+                <th className="p-4 font-semibold" style={{ color: 'var(--neon-blue)' }}>الحالة</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
-              {filtered.map((u) => (
-                <tr key={u.id} className="hover:bg-slate-50">
+            <tbody>
+              {filtered.map((u, i) => (
+                <tr
+                  key={u.id}
+                  className="hover:shadow-[inset_0_0_20px_rgba(0,210,255,0.05)] transition-all"
+                  style={{
+                    background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.02)',
+                    borderTop: '1px solid var(--border-plasma)',
+                  }}
+                >
                   <td className="p-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+                      <div
+                        className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm"
+                        style={{ background: 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))', color: '#fff' }}
+                      >
                         {u.name.charAt(0)}
                       </div>
                       <div>
-                        <div className="font-bold text-slate-900 text-sm flex items-center gap-1">
+                        <div className="font-bold text-sm flex items-center gap-1" style={{ color: 'var(--text-pure)' }}>
                           {u.name}
-                          {u.role === 'admin' && <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />}
+                          {u.role === 'admin' && <ShieldCheck className="w-3.5 h-3.5" style={{ color: 'var(--neon-blue)' }} />}
                         </div>
-                        {u.phone && <div className="text-xs text-slate-500">{u.phone}</div>}
+                        {u.phone && <div className="text-xs" style={{ color: 'var(--text-dim)' }}>{u.phone}</div>}
                       </div>
                     </div>
                   </td>
                   <td className="p-4">
-                    <a href={`mailto:${u.email}`} className="text-sm text-blue-600 hover:underline flex items-center gap-1">
+                    <a href={`mailto:${u.email}`} className="text-sm flex items-center gap-1 transition-all duration-300" style={{ color: 'var(--neon-blue)' }}>
                       <Mail className="w-3.5 h-3.5" />
                       {u.email}
                     </a>
                   </td>
-                  <td className="p-4 text-sm text-slate-600 flex items-center gap-1">
-                    <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                  <td className="p-4 text-sm flex items-center gap-1" style={{ color: 'var(--text-dim)' }}>
+                    <Calendar className="w-3.5 h-3.5" />
                     {new Date(u.createdAt).toLocaleDateString('ar-EG')}
                   </td>
                   <td className="p-4">
-                    <span className="inline-flex items-center gap-1 bg-yellow-50 text-yellow-700 text-xs font-bold px-2.5 py-1 rounded-full">
+                    <span
+                      className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full"
+                      style={{ background: 'rgba(255,190,11,0.15)', color: 'var(--atom-gold)' }}
+                    >
                       <Sparkles className="w-3 h-3" />
                       {u.points}
                     </span>
                   </td>
                   <td className="p-4">
-                    <span className={`inline-block text-xs font-bold px-2.5 py-1 rounded-full ${
-                      u.status === 'blocked'
-                        ? 'bg-red-100 text-red-700'
-                        : 'bg-green-100 text-green-700'
-                    }`}>
+                    <span
+                      className="inline-block text-xs font-bold px-2.5 py-1 rounded-full"
+                      style={{
+                        background: u.status === 'blocked' ? 'rgba(255,80,80,0.15)' : 'rgba(0,245,212,0.15)',
+                        color: u.status === 'blocked' ? '#ff5050' : 'var(--neon-green)',
+                      }}
+                    >
                       {u.status === 'blocked' ? 'محظور' : 'نشط'}
                     </span>
                   </td>
@@ -104,8 +142,8 @@ export default function AdminStudents() {
               ))}
               {filtered.length === 0 && !loading && (
                 <tr>
-                  <td colSpan={5} className="p-12 text-center text-slate-500">
-                    <UsersIcon className="w-12 h-12 text-slate-300 mx-auto mb-2" />
+                  <td colSpan={5} className="p-12 text-center" style={{ color: 'var(--text-dim)' }}>
+                    <UsersIcon className="w-12 h-12 mx-auto mb-2" style={{ color: 'rgba(148,163,184,0.3)' }} />
                     {search ? 'لا توجد نتائج بحث' : 'لا يوجد طلاب مسجلين بعد.'}
                   </td>
                 </tr>

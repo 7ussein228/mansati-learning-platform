@@ -35,7 +35,13 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean
     <button
       type="button"
       onClick={() => onChange(!checked)}
-      className={`relative w-11 h-6 rounded-full transition ${checked ? 'bg-blue-600' : 'bg-slate-300'}`}
+      className="relative w-11 h-6 rounded-full transition-all duration-300"
+      style={{
+        background: checked
+          ? 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))'
+          : 'rgba(255,255,255,0.1)',
+        border: '1px solid var(--border-plasma)',
+      }}
     >
       <span
         className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all ${
@@ -77,47 +83,71 @@ export default function AdminSettings() {
     setTimeout(() => setSaved(false), 2000);
   };
 
+  const inputStyle: React.CSSProperties = {
+    width: '100%',
+    padding: '10px 12px',
+    background: 'rgba(255,255,255,0.04)',
+    border: '1px solid var(--border-plasma)',
+    borderRadius: '12px',
+    color: 'var(--text-pure)',
+    outline: 'none',
+  };
+
   return (
     <div className="space-y-6 animate-fadeIn max-w-4xl">
       <div>
-        <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900">الإعدادات</h1>
-        <p className="text-slate-500 mt-1">إعدادات المنصة والاشتراكات والإشعارات</p>
+        <h1 className="text-2xl md:text-3xl font-extrabold" style={{ color: 'var(--text-pure)' }}>الإعدادات</h1>
+        <p className="mt-1" style={{ color: 'var(--text-dim)' }}>إعدادات المنصة والاشتراكات والإشعارات</p>
       </div>
 
       {saved && (
-        <div className="bg-green-50 border border-green-200 text-green-700 p-3 rounded-lg text-sm">
+        <div
+          className="p-3 rounded-lg text-sm"
+          style={{
+            background: 'rgba(0,245,212,0.1)',
+            border: '1px solid rgba(0,245,212,0.3)',
+            color: 'var(--neon-green)',
+          }}
+        >
           تم الحفظ بنجاح ✓
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Platform info */}
-        <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-          <h2 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <Building2 className="w-5 h-5 text-blue-600" />
+        <div
+          className="p-6 space-y-4"
+          style={{
+            background: 'var(--card-glass)',
+            border: '1px solid var(--border-plasma)',
+            borderRadius: '20px',
+            backdropFilter: 'blur(16px)',
+          }}
+        >
+          <h2 className="font-bold mb-4 flex items-center gap-2" style={{ color: 'var(--text-pure)' }}>
+            <Building2 className="w-5 h-5" style={{ color: 'var(--neon-blue)' }} />
             معلومات المنصة
           </h2>
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="sm:col-span-2">
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">اسم المنصة</label>
+              <label className="block text-sm font-semibold mb-1.5" style={{ color: 'var(--text-dim)' }}>اسم المنصة</label>
               <input
                 type="text"
                 value={settings.platformName}
                 onChange={(e) => update('platformName', e.target.value)}
-                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                style={inputStyle}
               />
             </div>
             <div className="sm:col-span-2">
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">الوصف</label>
+              <label className="block text-sm font-semibold mb-1.5" style={{ color: 'var(--text-dim)' }}>الوصف</label>
               <textarea
                 value={settings.description}
                 onChange={(e) => update('description', e.target.value)}
                 rows={2}
-                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none resize-none"
+                style={{ ...inputStyle, resize: 'none' }}
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5 flex items-center gap-1">
+              <label className="block text-sm font-semibold mb-1.5 flex items-center gap-1" style={{ color: 'var(--text-dim)' }}>
                 <Mail className="w-4 h-4" />
                 الإيميل
               </label>
@@ -125,11 +155,11 @@ export default function AdminSettings() {
                 type="email"
                 value={settings.email}
                 onChange={(e) => update('email', e.target.value)}
-                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                style={inputStyle}
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5 flex items-center gap-1">
+              <label className="block text-sm font-semibold mb-1.5 flex items-center gap-1" style={{ color: 'var(--text-dim)' }}>
                 <Phone className="w-4 h-4" />
                 الموبايل
               </label>
@@ -137,92 +167,113 @@ export default function AdminSettings() {
                 type="tel"
                 value={settings.phone}
                 onChange={(e) => update('phone', e.target.value)}
-                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                style={inputStyle}
               />
             </div>
           </div>
         </div>
 
-        {/* Social */}
-        <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-          <h2 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <LinkIcon className="w-5 h-5 text-blue-600" />
+        <div
+          className="p-6 space-y-4"
+          style={{
+            background: 'var(--card-glass)',
+            border: '1px solid var(--border-plasma)',
+            borderRadius: '20px',
+            backdropFilter: 'blur(16px)',
+          }}
+        >
+          <h2 className="font-bold mb-4 flex items-center gap-2" style={{ color: 'var(--text-pure)' }}>
+            <LinkIcon className="w-5 h-5" style={{ color: 'var(--neon-purple)' }} />
             روابط التواصل الاجتماعي
           </h2>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5 flex items-center gap-1">
-                <Globe className="w-4 h-4 text-blue-600" />
+              <label className="block text-sm font-semibold mb-1.5 flex items-center gap-1" style={{ color: 'var(--text-dim)' }}>
+                <Globe className="w-4 h-4" style={{ color: 'var(--neon-blue)' }} />
                 فيسبوك
               </label>
               <input
                 type="url"
                 value={settings.facebook}
                 onChange={(e) => update('facebook', e.target.value)}
-                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                style={{ ...inputStyle, fontSize: '0.875rem' }}
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5 flex items-center gap-1">
-                <Play className="w-4 h-4 text-red-600" />
+              <label className="block text-sm font-semibold mb-1.5 flex items-center gap-1" style={{ color: 'var(--text-dim)' }}>
+                <Play className="w-4 h-4" style={{ color: '#ff5050' }} />
                 يوتيوب
               </label>
               <input
                 type="url"
                 value={settings.youtube}
                 onChange={(e) => update('youtube', e.target.value)}
-                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                style={{ ...inputStyle, fontSize: '0.875rem' }}
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5 flex items-center gap-1">
-                <Send className="w-4 h-4 text-sky-500" />
+              <label className="block text-sm font-semibold mb-1.5 flex items-center gap-1" style={{ color: 'var(--text-dim)' }}>
+                <Send className="w-4 h-4" style={{ color: 'var(--neon-blue)' }} />
                 تيليجرام
               </label>
               <input
                 type="url"
                 value={settings.telegram}
                 onChange={(e) => update('telegram', e.target.value)}
-                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                style={{ ...inputStyle, fontSize: '0.875rem' }}
               />
             </div>
           </div>
         </div>
 
-        {/* Pricing */}
-        <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-          <h2 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <DollarSign className="w-5 h-5 text-green-600" />
+        <div
+          className="p-6 space-y-4"
+          style={{
+            background: 'var(--card-glass)',
+            border: '1px solid var(--border-plasma)',
+            borderRadius: '20px',
+            backdropFilter: 'blur(16px)',
+          }}
+        >
+          <h2 className="font-bold mb-4 flex items-center gap-2" style={{ color: 'var(--text-pure)' }}>
+            <DollarSign className="w-5 h-5" style={{ color: 'var(--neon-green)' }} />
             تسعير الاشتراكات
           </h2>
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">سعر الاشتراك الشهري (ج.م)</label>
+              <label className="block text-sm font-semibold mb-1.5" style={{ color: 'var(--text-dim)' }}>سعر الاشتراك الشهري (ج.م)</label>
               <input
                 type="number"
                 value={settings.monthlyPrice}
                 onChange={(e) => update('monthlyPrice', Number(e.target.value))}
                 min={0}
-                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                style={inputStyle}
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">سعر الاشتراك السنوي (ج.م)</label>
+              <label className="block text-sm font-semibold mb-1.5" style={{ color: 'var(--text-dim)' }}>سعر الاشتراك السنوي (ج.م)</label>
               <input
                 type="number"
                 value={settings.yearlyPrice}
                 onChange={(e) => update('yearlyPrice', Number(e.target.value))}
                 min={0}
-                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                style={inputStyle}
               />
             </div>
           </div>
         </div>
 
-        {/* Notifications */}
-        <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-          <h2 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <Bell className="w-5 h-5 text-yellow-600" />
+        <div
+          className="p-6 space-y-4"
+          style={{
+            background: 'var(--card-glass)',
+            border: '1px solid var(--border-plasma)',
+            borderRadius: '20px',
+            backdropFilter: 'blur(16px)',
+          }}
+        >
+          <h2 className="font-bold mb-4 flex items-center gap-2" style={{ color: 'var(--text-pure)' }}>
+            <Bell className="w-5 h-5" style={{ color: 'var(--atom-gold)' }} />
             الإشعارات
           </h2>
           <div className="space-y-4">
@@ -231,10 +282,17 @@ export default function AdminSettings() {
               { key: 'pushNotifications' as const, label: 'الإشعارات الفورية', desc: 'إرسال إشعارات فورية للمتصفح' },
               { key: 'newCourseAlerts' as const, label: 'تنبيهات الكورسات الجديدة', desc: 'إشعار الطلاب عند إضافة كورس جديد' },
             ].map((item) => (
-              <div key={item.key} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+              <div
+                key={item.key}
+                className="flex items-center justify-between p-3 rounded-xl"
+                style={{
+                  background: 'rgba(255,255,255,0.04)',
+                  border: '1px solid var(--border-plasma)',
+                }}
+              >
                 <div>
-                  <div className="font-bold text-slate-900 text-sm">{item.label}</div>
-                  <div className="text-xs text-slate-500 mt-0.5">{item.desc}</div>
+                  <div className="font-bold text-sm" style={{ color: 'var(--text-pure)' }}>{item.label}</div>
+                  <div className="text-xs mt-0.5" style={{ color: 'var(--text-dim)' }}>{item.desc}</div>
                 </div>
                 <Toggle
                   checked={settings[item.key] as boolean}
@@ -248,7 +306,8 @@ export default function AdminSettings() {
         <button
           type="submit"
           disabled={saving}
-          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold rounded-xl transition flex items-center gap-2"
+          className="px-6 py-3 text-white font-bold rounded-xl transition-all duration-300 flex items-center gap-2 hover:shadow-[0_0_20px_rgba(0,210,255,0.3)] disabled:opacity-50"
+          style={{ background: 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))' }}
         >
           <Save className="w-5 h-5" />
           {saving ? 'جاري الحفظ...' : 'حفظ الإعدادات'}

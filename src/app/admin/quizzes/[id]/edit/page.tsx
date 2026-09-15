@@ -130,86 +130,116 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full" />
+        <div className="animate-spin w-8 h-8 border-4 rounded-full" style={{ borderColor: 'var(--neon-blue)', borderTopColor: 'transparent' }} />
       </div>
     );
   }
 
   if (!quiz) {
     return (
-      <div className="text-center py-20 text-slate-500">
+      <div className="text-center py-20" style={{ color: 'var(--text-dim)' }}>
         <p>الاختبار غير موجود.</p>
-        <Link href="/admin/quizzes" className="text-blue-600 mt-2 inline-block">العودة</Link>
+        <Link href="/admin/quizzes" className="mt-2 inline-block" style={{ color: 'var(--neon-blue)' }}>العودة</Link>
       </div>
     );
   }
 
+  const inputStyle: React.CSSProperties = {
+    width: '100%',
+    padding: '10px 12px',
+    background: 'rgba(255,255,255,0.04)',
+    border: '1px solid var(--border-plasma)',
+    borderRadius: '12px',
+    color: 'var(--text-pure)',
+    outline: 'none',
+  };
+
   return (
     <div className="space-y-6 animate-fadeIn">
       <div className="flex items-center gap-3">
-        <Link href="/admin/quizzes" className="p-2 hover:bg-slate-200 rounded-lg transition">
+        <Link
+          href="/admin/quizzes"
+          className="p-2 rounded-lg transition-all duration-300"
+          style={{ border: '1px solid var(--border-plasma)', color: 'var(--text-dim)' }}
+        >
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900">تعديل الاختبار</h1>
-          <p className="text-slate-500 text-sm mt-1">تعديل بيانات الاختبار والأسئلة</p>
+          <h1 className="text-2xl md:text-3xl font-extrabold" style={{ color: 'var(--text-pure)' }}>تعديل الاختبار</h1>
+          <p className="text-sm mt-1" style={{ color: 'var(--text-dim)' }}>تعديل بيانات الاختبار والأسئلة</p>
         </div>
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-lg text-sm">{error}</div>
+        <div
+          className="p-3 rounded-lg text-sm"
+          style={{
+            background: 'rgba(255,80,80,0.1)',
+            border: '1px solid rgba(255,80,80,0.3)',
+            color: '#ff5050',
+          }}
+        >
+          {error}
+        </div>
       )}
 
       <form onSubmit={handleSubmit} className="grid lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          {/* Basic info */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
-            <h2 className="font-bold text-slate-900 flex items-center gap-2">
-              <FileQuestion className="w-5 h-5 text-blue-600" />
+          <div
+            className="p-6 space-y-4"
+            style={{
+              background: 'var(--card-glass)',
+              border: '1px solid var(--border-plasma)',
+              borderRadius: '20px',
+              backdropFilter: 'blur(16px)',
+            }}
+          >
+            <h2 className="font-bold flex items-center gap-2" style={{ color: 'var(--text-pure)' }}>
+              <FileQuestion className="w-5 h-5" style={{ color: 'var(--neon-blue)' }} />
               بيانات الاختبار
             </h2>
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">عنوان الاختبار</label>
+              <label className="block text-sm font-semibold mb-1.5" style={{ color: 'var(--text-dim)' }}>عنوان الاختبار</label>
               <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                style={inputStyle}
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">وصف الاختبار</label>
+              <label className="block text-sm font-semibold mb-1.5" style={{ color: 'var(--text-dim)' }}>وصف الاختبار</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={3}
-                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none resize-none"
+                style={{ ...inputStyle, resize: 'none' }}
                 required
               />
             </div>
             <div className="grid sm:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+                <label className="block text-sm font-semibold mb-1.5" style={{ color: 'var(--text-dim)' }}>
                   <BookOpen className="w-4 h-4 inline ml-1" />
                   الكورس
                 </label>
                 <select
                   value={courseId}
                   onChange={(e) => setCourseId(e.target.value)}
-                  className="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white"
+                  style={{ ...inputStyle, background: 'rgba(255,255,255,0.04)' }}
                   required
                 >
-                  <option value="">اختر كورس</option>
+                  <option value="" style={{ background: '#0d1424' }}>اختر كورس</option>
                   {courses.map((c) => (
-                    <option key={c.id} value={c.id}>
+                    <option key={c.id} value={c.id} style={{ background: '#0d1424', color: 'var(--text-pure)' }}>
                       {c.title}
                     </option>
                   ))}
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+                <label className="block text-sm font-semibold mb-1.5" style={{ color: 'var(--text-dim)' }}>
                   <Clock className="w-4 h-4 inline ml-1" />
                   المدة (دقيقة)
                 </label>
@@ -218,12 +248,12 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
                   value={duration}
                   onChange={(e) => setDuration(Number(e.target.value))}
                   min={1}
-                  className="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                  style={inputStyle}
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+                <label className="block text-sm font-semibold mb-1.5" style={{ color: 'var(--text-dim)' }}>
                   <Target className="w-4 h-4 inline ml-1" />
                   نسبة النجاح %
                 </label>
@@ -233,24 +263,32 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
                   onChange={(e) => setPassingScore(Number(e.target.value))}
                   min={0}
                   max={100}
-                  className="w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                  style={inputStyle}
                   required
                 />
               </div>
             </div>
           </div>
 
-          {/* Questions */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+          <div
+            className="p-6"
+            style={{
+              background: 'var(--card-glass)',
+              border: '1px solid var(--border-plasma)',
+              borderRadius: '20px',
+              backdropFilter: 'blur(16px)',
+            }}
+          >
             <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-              <h2 className="font-bold text-slate-900 flex items-center gap-2">
+              <h2 className="font-bold flex items-center gap-2" style={{ color: 'var(--text-pure)' }}>
                 الأسئلة ({questions.length})
               </h2>
               <div className="flex gap-2">
                 <button
                   type="button"
                   onClick={() => addQuestion('multiple')}
-                  className="text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1"
+                  className="text-sm text-white px-3 py-1.5 rounded-lg font-bold transition-all duration-300 flex items-center gap-1 hover:shadow-[0_0_20px_rgba(0,210,255,0.3)]"
+                  style={{ background: 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))' }}
                 >
                   <Plus className="w-4 h-4" />
                   اختيار من متعدد
@@ -258,7 +296,8 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
                 <button
                   type="button"
                   onClick={() => addQuestion('truefalse')}
-                  className="text-sm bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1"
+                  className="text-sm text-white px-3 py-1.5 rounded-lg font-bold transition-all duration-300 flex items-center gap-1 hover:shadow-[0_0_20px_rgba(255,190,11,0.3)]"
+                  style={{ background: 'var(--atom-gold)', color: '#000' }}
                 >
                   <Plus className="w-4 h-4" />
                   صواب/خطأ
@@ -268,15 +307,25 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
 
             <div className="space-y-4">
               {questions.map((q, qIdx) => (
-                <div key={qIdx} className="border border-slate-200 rounded-xl p-4 bg-slate-50/50">
+                <div
+                  key={qIdx}
+                  className="rounded-xl p-4"
+                  style={{
+                    background: 'rgba(255,255,255,0.02)',
+                    border: '1px solid var(--border-plasma)',
+                  }}
+                >
                   <div className="flex items-center justify-between mb-3">
-                    <span className="font-bold text-slate-700 text-sm">
+                    <span className="font-bold text-sm" style={{ color: 'var(--text-dim)' }}>
                       السؤال {qIdx + 1} ({q.type === 'multiple' ? 'اختيار من متعدد' : 'صواب/خطأ'})
                     </span>
                     <button
                       type="button"
                       onClick={() => removeQuestion(qIdx)}
-                      className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg"
+                      className="p-1.5 rounded-lg transition-all duration-300"
+                      style={{ color: '#ff5050' }}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,80,80,0.1)')}
+                      onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -288,12 +337,12 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
                       value={q.text}
                       onChange={(e) => updateQuestion(qIdx, 'text', e.target.value)}
                       placeholder="نص السؤال..."
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                      style={{ ...inputStyle, fontSize: '0.875rem' }}
                       required
                     />
 
                     <div>
-                      <label className="text-xs font-semibold text-slate-600 mb-2 block">
+                      <label className="text-xs font-semibold mb-2 block" style={{ color: 'var(--text-dim)' }}>
                         الخيارات (اختر الإجابة الصحيحة بالضغط على الدائرة):
                       </label>
                       <div className="space-y-2">
@@ -302,11 +351,11 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
                             <button
                               type="button"
                               onClick={() => updateQuestion(qIdx, 'correctAnswer', opt)}
-                              className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
-                                q.correctAnswer === opt
-                                  ? 'border-green-500 bg-green-500'
-                                  : 'border-slate-300 hover:border-blue-400'
-                              }`}
+                              className="w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-300"
+                              style={{
+                                borderColor: q.correctAnswer === opt ? 'var(--neon-green)' : 'var(--border-plasma)',
+                                background: q.correctAnswer === opt ? 'var(--neon-green)' : 'transparent',
+                              }}
                             >
                               {q.correctAnswer === opt && <CheckCircle2 className="w-4 h-4 text-white" />}
                             </button>
@@ -315,7 +364,12 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
                                 type="text"
                                 value={opt}
                                 disabled
-                                className="flex-1 px-3 py-2 border border-slate-200 rounded-lg bg-slate-100 text-slate-700 text-sm font-medium"
+                                className="flex-1 px-3 py-2 rounded-lg text-sm font-medium"
+                                style={{
+                                  background: 'rgba(255,255,255,0.06)',
+                                  border: '1px solid var(--border-plasma)',
+                                  color: 'var(--text-dim)',
+                                }}
                               />
                             ) : (
                               <input
@@ -323,7 +377,7 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
                                 value={opt}
                                 onChange={(e) => updateOption(qIdx, oIdx, e.target.value)}
                                 placeholder={`الخيار ${oIdx + 1}`}
-                                className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                                style={{ ...inputStyle, flex: 1, fontSize: '0.875rem' }}
                                 required
                               />
                             )}
@@ -333,13 +387,13 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
                     </div>
 
                     <div>
-                      <label className="text-xs font-semibold text-slate-600 mb-1 block">نقاط السؤال:</label>
+                      <label className="text-xs font-semibold mb-1 block" style={{ color: 'var(--text-dim)' }}>نقاط السؤال:</label>
                       <input
                         type="number"
                         value={q.points}
                         onChange={(e) => updateQuestion(qIdx, 'points', Number(e.target.value))}
                         min={1}
-                        className="w-24 px-3 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                        style={{ ...inputStyle, width: '6rem', fontSize: '0.875rem' }}
                       />
                     </div>
                   </div>
@@ -349,21 +403,34 @@ export default function EditQuizPage({ params }: { params: Promise<{ id: string 
           </div>
         </div>
 
-        {/* Sidebar */}
         <div>
-          <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm sticky top-4">
-            <h3 className="font-bold text-slate-900 mb-4">حفظ التعديلات</h3>
+          <div
+            className="p-5 sticky top-4"
+            style={{
+              background: 'var(--card-glass)',
+              border: '1px solid var(--border-plasma)',
+              borderRadius: '20px',
+              backdropFilter: 'blur(16px)',
+            }}
+          >
+            <h3 className="font-bold mb-4" style={{ color: 'var(--text-pure)' }}>حفظ التعديلات</h3>
             <button
               type="submit"
               disabled={saving}
-              className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold rounded-xl transition flex items-center justify-center gap-2 mb-2"
+              className="w-full py-2.5 text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 mb-2 hover:shadow-[0_0_20px_rgba(0,210,255,0.3)] disabled:opacity-50"
+              style={{ background: 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))' }}
             >
               <Save className="w-4 h-4" />
               {saving ? 'جاري الحفظ...' : 'حفظ التعديلات'}
             </button>
             <Link
               href="/admin/quizzes"
-              className="w-full block text-center py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition"
+              className="w-full block text-center py-2.5 font-bold rounded-xl transition-all duration-300"
+              style={{
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid var(--border-plasma)',
+                color: 'var(--text-dim)',
+              }}
             >
               إلغاء
             </Link>

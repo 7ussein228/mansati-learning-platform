@@ -25,20 +25,34 @@ export default function CoursesClient({ courses, categories }: Props) {
 
   return (
     <>
-      <div className="bg-white rounded-2xl border border-slate-200 p-4 space-y-4">
+      <div
+        className="p-4 space-y-4"
+        style={{
+          background: 'var(--card-glass)',
+          border: '1px solid var(--border-plasma)',
+          borderRadius: '20px',
+          backdropFilter: 'blur(16px)',
+        }}
+      >
         <div className="relative">
-          <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+          <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: 'var(--text-dim)' }} />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="ابحث عن كورس..."
-            className="w-full pr-10 pl-10 py-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+            className="input-space w-full pr-10 pl-10 py-2.5 rounded-xl outline-none"
+            style={{
+              background: 'rgba(255,255,255,0.05)',
+              border: '1px solid var(--border-plasma)',
+              color: 'var(--text-pure)',
+            }}
           />
           {search && (
             <button
               onClick={() => setSearch('')}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              className="absolute left-3 top-1/2 -translate-y-1/2"
+              style={{ color: 'var(--text-dim)' }}
             >
               <X className="w-5 h-5" />
             </button>
@@ -47,11 +61,12 @@ export default function CoursesClient({ courses, categories }: Props) {
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => setActiveCat('all')}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition ${
-              activeCat === 'all'
-                ? 'bg-blue-600 text-white'
-                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-            }`}
+            className="tab-btn px-4 py-2 rounded-full text-sm font-medium transition"
+            style={{
+              background: activeCat === 'all' ? 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))' : 'rgba(255,255,255,0.06)',
+              color: activeCat === 'all' ? 'white' : 'var(--text-dim)',
+              border: activeCat === 'all' ? 'none' : '1px solid var(--border-plasma)',
+            }}
           >
             الكل
           </button>
@@ -59,11 +74,12 @@ export default function CoursesClient({ courses, categories }: Props) {
             <button
               key={cat}
               onClick={() => setActiveCat(cat)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition ${
-                activeCat === cat
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-              }`}
+              className="tab-btn px-4 py-2 rounded-full text-sm font-medium transition"
+              style={{
+                background: activeCat === cat ? 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))' : 'rgba(255,255,255,0.06)',
+                color: activeCat === cat ? 'white' : 'var(--text-dim)',
+                border: activeCat === cat ? 'none' : '1px solid var(--border-plasma)',
+              }}
             >
               {cat}
             </button>
@@ -72,8 +88,16 @@ export default function CoursesClient({ courses, categories }: Props) {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center">
-          <p className="text-slate-500">لا توجد كورسات تطابق البحث</p>
+        <div
+          className="p-12 text-center"
+          style={{
+            background: 'var(--card-glass)',
+            border: '1px solid var(--border-plasma)',
+            borderRadius: '20px',
+            backdropFilter: 'blur(16px)',
+          }}
+        >
+          <p style={{ color: 'var(--text-dim)' }}>لا توجد كورسات تطابق البحث</p>
         </div>
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">

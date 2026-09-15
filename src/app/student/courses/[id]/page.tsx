@@ -43,111 +43,114 @@ export default async function CourseDetail({ params }: { params: Promise<{ id: s
     <div className="space-y-8 animate-fadeIn">
       <Link
         href="/student/courses"
-        className="inline-flex items-center gap-2 text-slate-600 hover:text-blue-600 transition font-medium text-sm"
+        className="inline-flex items-center gap-2 transition font-medium text-sm"
+        style={{ color: 'var(--neon-blue)' }}
       >
         <ArrowLeft className="w-4 h-4" />
         العودة للكورسات
       </Link>
 
-      {/* Header */}
-      <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+      <div
+        className="overflow-hidden"
+        style={{
+          background: 'var(--card-glass)',
+          border: '1px solid var(--border-plasma)',
+          borderRadius: '20px',
+          backdropFilter: 'blur(16px)',
+        }}
+      >
         <div
           className="h-48 md:h-64 bg-cover bg-center relative"
           style={{
-            backgroundImage: `linear-gradient(135deg, rgba(37,99,235,0.85), rgba(15,23,42,0.9)), url(${course.image})`,
+            backgroundImage: `linear-gradient(135deg, rgba(0,210,255,0.3), rgba(5,8,19,0.9)), url(${course.image})`,
           }}
         >
           <div className="absolute inset-0 flex items-end p-6 md:p-8">
             <div className="text-white">
-              <span className="inline-block bg-white/20 backdrop-blur px-3 py-1 rounded-full text-xs font-bold mb-3">
+              <span
+                className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-3"
+                style={{ background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)' }}
+              >
                 {course.category}
               </span>
               <h1 className="text-2xl md:text-4xl font-extrabold mb-2">{course.title}</h1>
-              <p className="text-blue-100 text-sm md:text-base max-w-2xl line-clamp-2">{course.description}</p>
+              <p className="text-sm md:text-base max-w-2xl line-clamp-2" style={{ color: 'rgba(255,255,255,0.7)' }}>{course.description}</p>
             </div>
           </div>
         </div>
 
-        <div className="p-6 md:p-8 grid grid-cols-2 md:grid-cols-4 gap-4 border-b border-slate-100">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-              <BookOpen className="w-5 h-5 text-blue-600" />
-            </div>
-            <div>
-              <div className="text-sm text-slate-500">الدروس</div>
-              <div className="font-bold text-slate-900">{course.lessons.length} درس</div>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
-              <Clock className="w-5 h-5 text-yellow-600" />
-            </div>
-            <div>
-              <div className="text-sm text-slate-500">المدة</div>
-              <div className="font-bold text-slate-900">{totalHours} ساعة</div>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-              <Users className="w-5 h-5 text-green-600" />
-            </div>
-            <div>
-              <div className="text-sm text-slate-500">الطلاب</div>
-              <div className="font-bold text-slate-900">{course.studentsCount.toLocaleString('ar-EG')}</div>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-              <div className="flex items-center gap-1">
-                <Star className="w-5 h-5 text-purple-600 fill-purple-600" />
+        <div className="p-6 md:p-8 grid grid-cols-2 md:grid-cols-4 gap-4" style={{ borderBottom: '1px solid var(--border-plasma)' }}>
+          {[
+            { icon: BookOpen, value: `${course.lessons.length} درس`, label: 'الدروس', color: 'var(--neon-blue)' },
+            { icon: Clock, value: `${totalHours} ساعة`, label: 'المدة', color: 'var(--atom-gold)' },
+            { icon: Users, value: course.studentsCount.toLocaleString('ar-EG'), label: 'الطلاب', color: 'var(--neon-green)' },
+            { icon: Star, value: `${course.rating}/5`, label: 'التقييم', color: 'var(--neon-purple)' },
+          ].map((item, i) => {
+            const Icon = item.icon;
+            return (
+              <div key={i} className="flex items-center gap-3">
+                <div
+                  className="w-10 h-10 rounded-lg flex items-center justify-center"
+                  style={{ background: `${item.color}20` }}
+                >
+                  <Icon className="w-5 h-5" style={{ color: item.color }} />
+                </div>
+                <div>
+                  <div className="text-sm" style={{ color: 'var(--text-dim)' }}>{item.label}</div>
+                  <div className="font-bold" style={{ color: 'var(--text-pure)' }}>{item.value}</div>
+                </div>
               </div>
-            </div>
-            <div>
-              <div className="text-sm text-slate-500">التقييم</div>
-              <div className="font-bold text-slate-900">{course.rating}/5</div>
-            </div>
-          </div>
+            );
+          })}
         </div>
 
-        {/* Progress */}
         <div className="p-6 md:p-8">
           <div className="flex items-center justify-between mb-2">
-            <span className="font-bold text-slate-900">تقدمك في الكورس</span>
-            <span className="font-bold text-blue-600">{progress}%</span>
+            <span className="font-bold" style={{ color: 'var(--text-pure)' }}>تقدمك في الكورس</span>
+            <span className="font-bold" style={{ color: 'var(--neon-blue)' }}>{progress}%</span>
           </div>
-          <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
+          <div className="quantum-bar" style={{ height: '12px', background: 'rgba(255,255,255,0.08)', borderRadius: '9999px', overflow: 'hidden' }}>
             <div
-              className="h-full bg-gradient-to-l from-blue-600 to-blue-400 rounded-full transition-all"
-              style={{ width: `${progress}%` }}
+              className="quantum-fill h-full rounded-full transition-all"
+              style={{ width: `${progress}%`, background: 'linear-gradient(90deg, var(--neon-blue), var(--neon-purple))' }}
             />
           </div>
         </div>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">
-        {/* Lessons list */}
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm">
-          <div className="p-5 border-b border-slate-100 flex items-center justify-between">
-            <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-blue-600" />
+        <div
+          className="lg:col-span-2"
+          style={{
+            background: 'var(--card-glass)',
+            border: '1px solid var(--border-plasma)',
+            borderRadius: '20px',
+            backdropFilter: 'blur(16px)',
+          }}
+        >
+          <div className="p-5 flex items-center justify-between" style={{ borderBottom: '1px solid var(--border-plasma)' }}>
+            <h2 className="text-lg font-bold flex items-center gap-2" style={{ color: 'var(--text-pure)' }}>
+              <BookOpen className="w-5 h-5" style={{ color: 'var(--neon-blue)' }} />
               محتوى الكورس
             </h2>
-            <span className="text-sm text-slate-500">{course.lessons.length} درس</span>
+            <span className="text-sm" style={{ color: 'var(--text-dim)' }}>{course.lessons.length} درس</span>
           </div>
-          <div className="divide-y divide-slate-100">
+          <div>
             {course.lessons.map((lesson, idx) => {
               const isCompleted = completedLessons.includes(lesson.id);
               const isLocked = !lesson.isFree && !enrollment && idx > 0;
               return (
-                <div key={lesson.id} className="p-4 md:p-5 flex items-center gap-4 hover:bg-slate-50 transition">
+                <div
+                  key={lesson.id}
+                  className="p-4 md:p-5 flex items-center gap-4 transition lesson-node"
+                  style={{ borderBottom: idx < course.lessons.length - 1 ? '1px solid var(--border-plasma)' : 'none' }}
+                >
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm ${
-                      isCompleted
-                        ? 'bg-green-100 text-green-600'
-                        : isLocked
-                        ? 'bg-slate-100 text-slate-400'
-                        : 'bg-blue-100 text-blue-600'
-                    }`}
+                    className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm"
+                    style={{
+                      background: isCompleted ? 'rgba(0,245,212,0.15)' : isLocked ? 'rgba(255,255,255,0.06)' : 'rgba(0,210,255,0.15)',
+                      color: isCompleted ? 'var(--neon-green)' : isLocked ? 'var(--text-dim)' : 'var(--neon-blue)',
+                    }}
                   >
                     {isCompleted ? (
                       <CheckCircle2 className="w-5 h-5" />
@@ -158,29 +161,30 @@ export default async function CourseDetail({ params }: { params: Promise<{ id: s
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-slate-900 mb-1 flex items-center gap-2">
+                    <h3 className="font-bold mb-1 flex items-center gap-2" style={{ color: 'var(--text-pure)' }}>
                       {lesson.title}
                       {lesson.isFree && (
-                        <span className="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold">
+                        <span
+                          className="text-[10px] px-2 py-0.5 rounded-full font-bold"
+                          style={{ background: 'rgba(0,245,212,0.15)', color: 'var(--neon-green)' }}
+                        >
                           مجاني
                         </span>
                       )}
                     </h3>
-                    <p className="text-sm text-slate-500 line-clamp-1">{lesson.description}</p>
-                    <div className="flex items-center gap-2 mt-1 text-xs text-slate-500">
+                    <p className="text-sm line-clamp-1" style={{ color: 'var(--text-dim)' }}>{lesson.description}</p>
+                    <div className="flex items-center gap-2 mt-1 text-xs" style={{ color: 'var(--text-dim)' }}>
                       <Clock className="w-3 h-3" />
                       {lesson.duration} دقيقة
                     </div>
                   </div>
                   <button
                     disabled={isLocked}
-                    className={`px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-1 flex-shrink-0 ${
-                      isLocked
-                        ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                        : isCompleted
-                        ? 'bg-green-600 text-white hover:bg-green-700'
-                        : 'bg-blue-600 text-white hover:bg-blue-700'
-                    }`}
+                    className="px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-1 flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
+                    style={{
+                      background: isLocked ? 'rgba(255,255,255,0.06)' : isCompleted ? 'var(--neon-green)' : 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))',
+                      color: 'white',
+                    }}
                   >
                     {isLocked ? (
                       <>
@@ -205,20 +209,27 @@ export default async function CourseDetail({ params }: { params: Promise<{ id: s
           </div>
         </div>
 
-        {/* Sidebar: Resources & Price */}
         <div className="space-y-4">
-          <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+          <div
+            className="p-5"
+            style={{
+              background: 'var(--card-glass)',
+              border: '1px solid var(--border-plasma)',
+              borderRadius: '20px',
+              backdropFilter: 'blur(16px)',
+            }}
+          >
             {course.isFree ? (
               <div className="text-center mb-4">
-                <div className="text-3xl font-extrabold text-green-600 mb-1">مجاني</div>
-                <div className="text-sm text-slate-500">ابدأ الآن بدون أي رسوم</div>
+                <div className="text-3xl font-extrabold mb-1" style={{ color: 'var(--neon-green)' }}>مجاني</div>
+                <div className="text-sm" style={{ color: 'var(--text-dim)' }}>ابدأ الآن بدون أي رسوم</div>
               </div>
             ) : (
               <div className="text-center mb-4">
-                <div className="text-3xl font-extrabold text-slate-900 mb-1">
-                  {course.price} <span className="text-base font-normal text-slate-500">ج.م</span>
+                <div className="text-3xl font-extrabold mb-1" style={{ color: 'var(--text-pure)' }}>
+                  {course.price} <span className="text-base font-normal" style={{ color: 'var(--text-dim)' }}>ج.م</span>
                 </div>
-                <div className="text-sm text-slate-500">اشتراك لمرة واحدة</div>
+                <div className="text-sm" style={{ color: 'var(--text-dim)' }}>اشتراك لمرة واحدة</div>
               </div>
             )}
             <BuyButton
@@ -229,9 +240,17 @@ export default async function CourseDetail({ params }: { params: Promise<{ id: s
             />
           </div>
 
-          <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-            <h3 className="font-bold text-slate-900 mb-3 flex items-center gap-2">
-              <Download className="w-4 h-4 text-blue-600" />
+          <div
+            className="p-5"
+            style={{
+              background: 'var(--card-glass)',
+              border: '1px solid var(--border-plasma)',
+              borderRadius: '20px',
+              backdropFilter: 'blur(16px)',
+            }}
+          >
+            <h3 className="font-bold mb-3 flex items-center gap-2" style={{ color: 'var(--text-pure)' }}>
+              <Download className="w-4 h-4" style={{ color: 'var(--neon-blue)' }} />
               موارد التحميل
             </h3>
             <div className="space-y-2">
@@ -242,25 +261,34 @@ export default async function CourseDetail({ params }: { params: Promise<{ id: s
                 <a
                   key={i}
                   href="#"
-                  className="flex items-center gap-3 p-3 bg-slate-50 hover:bg-blue-50 rounded-lg transition group"
+                  className="flex items-center gap-3 p-3 rounded-lg transition group"
+                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border-plasma)' }}
                 >
-                  <FileText className="w-5 h-5 text-blue-600" />
+                  <FileText className="w-5 h-5" style={{ color: 'var(--neon-blue)' }} />
                   <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium text-slate-900">{r.name}</div>
-                    <div className="text-xs text-slate-500">{r.size}</div>
+                    <div className="text-sm font-medium" style={{ color: 'var(--text-pure)' }}>{r.name}</div>
+                    <div className="text-xs" style={{ color: 'var(--text-dim)' }}>{r.size}</div>
                   </div>
-                  <Download className="w-4 h-4 text-slate-400 group-hover:text-blue-600 transition" />
+                  <Download className="w-4 h-4 transition" style={{ color: 'var(--text-dim)' }} />
                 </a>
               ))}
             </div>
           </div>
 
-          <div className="bg-gradient-to-l from-yellow-400 to-yellow-500 rounded-2xl p-5 text-slate-900 shadow-sm">
+          <div
+            className="p-5"
+            style={{
+              background: 'linear-gradient(135deg, rgba(255,190,11,0.15), rgba(255,190,11,0.05))',
+              border: '1px solid rgba(255,190,11,0.3)',
+              borderRadius: '20px',
+              backdropFilter: 'blur(16px)',
+            }}
+          >
             <div className="flex items-center gap-2 mb-2">
-              <Award className="w-5 h-5" />
-              <h3 className="font-bold">شهادة إتمام</h3>
+              <Award className="w-5 h-5" style={{ color: 'var(--atom-gold)' }} />
+              <h3 className="font-bold" style={{ color: 'var(--atom-gold)' }}>شهادة إتمام</h3>
             </div>
-            <p className="text-sm leading-relaxed">
+            <p className="text-sm leading-relaxed" style={{ color: 'var(--text-dim)' }}>
               عند إتمام الكورس واجتياز الاختبار النهائي ستحصل على شهادة إتمام معتمدة يمكنك تحميلها وطباعتها.
             </p>
           </div>

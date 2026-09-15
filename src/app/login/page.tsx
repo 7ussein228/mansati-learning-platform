@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Mail, Lock, Eye, EyeOff, Loader2, GraduationCap, ShieldCheck } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Loader2, GraduationCap, ShieldCheck, Zap, BookOpen, Trophy, Users } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -34,35 +34,82 @@ export default function LoginPage() {
     }
   };
 
+  const benefits = [
+    { icon: BookOpen, text: 'تابع تقدمك في الكورسات', color: 'var(--neon-blue)' },
+    { icon: Zap, text: 'حل الاختبارات واحصل على نتائج فورية', color: 'var(--neon-green)' },
+    { icon: Users, text: 'تواصل مع زملائك في جروبات النقاش', color: 'var(--neon-purple)' },
+    { icon: Trophy, text: 'احصل على شهاداتك المعتمدة', color: 'var(--atom-gold)' },
+  ];
+
   return (
-    <div className="min-h-screen grid lg:grid-cols-2 bg-slate-50">
-      <div className="hidden lg:flex flex-col justify-center p-12 bg-gradient-to-bl from-blue-600 to-indigo-800 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(245,158,11,0.2),transparent_50%)]" />
-        <div className="relative">
-          <Link href="/" className="flex items-center gap-2 mb-12">
-            <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-              <GraduationCap className="w-7 h-7" />
+    <div className="min-h-screen grid lg:grid-cols-2" style={{ background: 'var(--bg-space)' }}>
+      <div className="hidden lg:flex flex-col justify-center items-center p-12 relative overflow-hidden">
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(135deg, rgba(157,78,221,0.25) 0%, rgba(0,210,255,0.15) 50%, rgba(0,245,212,0.1) 100%)',
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(circle at 30% 40%, rgba(0,210,255,0.2) 0%, transparent 50%), radial-gradient(circle at 70% 70%, rgba(157,78,221,0.2) 0%, transparent 50%)',
+          }}
+        />
+        <div className="relative z-10 w-full max-w-md">
+          <Link href="/" className="flex items-center gap-3 mb-12">
+            <div
+              className="w-14 h-14 rounded-2xl flex items-center justify-center"
+              style={{
+                background: 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))',
+                boxShadow: '0 0 30px rgba(0,210,255,0.4)',
+              }}
+            >
+              <GraduationCap className="w-8 h-8 text-white" />
             </div>
-            <span className="text-3xl font-extrabold">Tesla</span>
+            <span
+              className="text-4xl font-extrabold"
+              style={{
+                background: 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple), var(--neon-green))',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              Tesla
+            </span>
           </Link>
-          <h1 className="text-4xl font-extrabold mb-4 leading-tight">
+
+          <h1
+            className="text-4xl font-extrabold mb-4 leading-tight"
+            style={{ color: 'var(--text-pure)' }}
+          >
             أهلاً بعودتك!
           </h1>
-          <p className="text-blue-100 text-lg mb-8 leading-relaxed">
+          <p className="text-lg mb-10 leading-relaxed" style={{ color: 'var(--text-dim)' }}>
             سجّل دخولك لمتابعة رحلتك التعليمية، وشوف تقدمك، وحضر الدروس والاختبارات.
           </p>
+
           <div className="space-y-4">
-            {[
-              'تابع تقدمك في الكورسات',
-              'حل الاختبارات واحصل على نتائج فورية',
-              'تواصل مع زملائك في جروبات النقاش',
-              'احصل على شهاداتك المعتمدة',
-            ].map((t, i) => (
-              <div key={i} className="flex items-center gap-3 text-blue-50">
-                <div className="w-6 h-6 rounded-full bg-yellow-400/20 flex items-center justify-center flex-shrink-0">
-                  <ShieldCheck className="w-4 h-4 text-yellow-400" />
+            {benefits.map((b, i) => (
+              <div
+                key={i}
+                className="flex items-center gap-4 p-4 rounded-xl"
+                style={{
+                  background: 'var(--card-glass)',
+                  border: '1px solid var(--border-plasma)',
+                }}
+              >
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                  style={{ background: `${b.color}20`, border: `1px solid ${b.color}40` }}
+                >
+                  <b.icon className="w-5 h-5" style={{ color: b.color }} />
                 </div>
-                <span>{t}</span>
+                <span className="font-medium" style={{ color: 'var(--text-pure)' }}>
+                  {b.text}
+                </span>
               </div>
             ))}
           </div>
@@ -72,60 +119,96 @@ export default function LoginPage() {
       <div className="flex items-center justify-center p-6 lg:p-12">
         <div className="w-full max-w-md">
           <Link href="/" className="lg:hidden flex items-center gap-2 justify-center mb-8">
-            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center"
+              style={{
+                background: 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))',
+                boxShadow: '0 0 20px rgba(0,210,255,0.3)',
+              }}
+            >
               <GraduationCap className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-extrabold text-blue-600">Tesla</span>
+            <span
+              className="text-2xl font-extrabold"
+              style={{
+                background: 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              Tesla
+            </span>
           </Link>
 
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
-            <h2 className="text-2xl font-extrabold text-slate-900 mb-2">تسجيل الدخول</h2>
-            <p className="text-slate-500 text-sm mb-6">
-              أدخل بياناتك للدخول إلى حسابك
-            </p>
+          <div className="glass-box animate-fadeIn">
+            <div className="text-center mb-8">
+              <h2
+                className="text-2xl font-extrabold mb-2"
+                style={{ color: 'var(--text-pure)' }}
+              >
+                تسجيل الدخول
+              </h2>
+              <p className="text-sm" style={{ color: 'var(--text-dim)' }}>
+                أدخل بياناتك للدخول إلى حسابك
+              </p>
+            </div>
 
             {error && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
+              <div
+                className="mb-4 p-3 rounded-xl text-sm font-medium text-center"
+                style={{
+                  background: 'rgba(239,68,68,0.1)',
+                  border: '1px solid rgba(239,68,68,0.3)',
+                  color: '#fca5a5',
+                }}
+              >
                 {error}
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+                <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-dim)' }}>
                   البريد الإلكتروني
                 </label>
                 <div className="relative">
-                  <Mail className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                  <Mail
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5"
+                    style={{ color: 'var(--text-dim)' }}
+                  />
                   <input
                     type="email"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="example@email.com"
-                    className="w-full pr-10 pl-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                    className="input-space pr-10"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+                <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--text-dim)' }}>
                   كلمة المرور
                 </label>
                 <div className="relative">
-                  <Lock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                  <Lock
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5"
+                    style={{ color: 'var(--text-dim)' }}
+                  />
                   <input
                     type={showPass ? 'text' : 'password'}
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full pr-10 pl-10 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                    className="input-space pr-10 pl-10"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPass(!showPass)}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                    className="absolute left-3 top-1/2 -translate-y-1/2"
+                    style={{ color: 'var(--text-dim)' }}
                   >
                     {showPass ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
@@ -138,11 +221,20 @@ export default function LoginPage() {
                     type="checkbox"
                     checked={remember}
                     onChange={(e) => setRemember(e.target.checked)}
-                    className="w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500"
+                    className="w-4 h-4 rounded"
+                    style={{
+                      accentColor: 'var(--neon-blue)',
+                    }}
                   />
-                  <span className="text-sm text-slate-700">تذكرني</span>
+                  <span className="text-sm" style={{ color: 'var(--text-dim)' }}>
+                    تذكرني
+                  </span>
                 </label>
-                <a href="#" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+                <a
+                  href="#"
+                  className="text-sm font-medium hover:underline"
+                  style={{ color: 'var(--neon-blue)' }}
+                >
                   نسيت كلمة المرور؟
                 </a>
               </div>
@@ -150,16 +242,25 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold rounded-lg transition flex items-center justify-center gap-2"
+                className="btn-neon w-full justify-center py-3 text-base"
+                style={{ opacity: loading ? 0.7 : 1 }}
               >
                 {loading && <Loader2 className="w-5 h-5 animate-spin" />}
                 تسجيل الدخول
               </button>
             </form>
 
-            <div className="mt-6 text-center text-sm text-slate-600">
+            <div className="mt-6 text-center text-sm" style={{ color: 'var(--text-dim)' }}>
               ليس لديك حساب؟{' '}
-              <Link href="/register" className="text-blue-600 hover:text-blue-700 font-bold">
+              <Link
+                href="/register"
+                className="font-bold hover:underline"
+                style={{
+                  background: 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+              >
                 سجل الآن
               </Link>
             </div>
